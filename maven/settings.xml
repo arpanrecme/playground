@@ -1,0 +1,19 @@
+<settings>
+	<profiles>
+		<profile>
+			<id>amandal-gpg</id>
+			<properties>
+				<gpg.executable>gpg</gpg.executable>
+				<gpg.passphrase>pass</gpg.passphrase>
+				<gpg.keyname>gpgid</gpg.keyname>
+			</properties>
+		</profile>
+	</profiles>
+	<servers>
+		<server>
+			<id>ossrh</id>
+			<username>amandal</username>
+			<password>pass</password>
+		</server>
+	</servers>
+</settings>
