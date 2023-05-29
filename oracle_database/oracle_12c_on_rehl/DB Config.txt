@@ -1,0 +1,13 @@
+ 
+Windows User 
+ oracleuser1 
+ Windows Password 
+ password
+Administrative password 
+orcltestP1
+Global Database name 
+orcl.vmhost 
+SID 
+devl1ops 
+Pluggable DB 
+devl1opspdb 

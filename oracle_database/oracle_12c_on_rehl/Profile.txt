@@ -1,0 +1,63 @@
+Create the new groups and users. 
+groupadd -g 54321 oinstall 
+groupadd -g 54322 dba 
+groupadd -g 54323 oper 
+#groupadd -g 54324 backupdba 
+#groupadd -g 54325 dgdba 
+#groupadd -g 54326 kmdba 
+#groupadd -g 54327 asmdba 
+#groupadd -g 54328 asmoper 
+#groupadd -g 54329 asmadmin 
+useradd -u 54321 -g oinstall -G dba,oper orcldba1 
+passwd orcldba1 
+/orclpassP1 
+We are not going to use the extra groups, but include them if you do plan on using them. 
+Create the directories in which the Oracle software will be installed. 
+mkdir -p /u01/app/orcldb/product/12.2.0.1/dbhome_1 
+chown -R orcldba1:oinstall /u01 
+chmod -R 775 /u01 
+Create a "scripts" directory. 
+mkdir /home/orcldba1/scripts 
+Create an environment file called "setEnv.sh". 
+cat >/home/orcldba1/scripts/setEnv.sh <<EOF 
+# Oracle Settings 
+export TMP=/tmp 
+export TMPDIR=$TMP 
+export ORACLE_HOSTNAME=devl1.vmhost 
+export ORACLE_UNQNAME=devl1db 
+export ORACLE_BASE=/u01/app/orcldb 
+export ORACLE_HOME=\$ORACLE_BASE/product/12.2.0.1/dbhome_1 
+export ORACLE_SID=devl1ops 
+export PATH=/usr/sbin:/usr/local/bin:\$PATH 
+export PATH=\$ORACLE_HOME/bin:\$PATH 
+export LD_LIBRARY_PATH=\$ORACLE_HOME/lib:/lib:/usr/lib 
+export CLASSPATH=\$ORACLE_HOME/jlib:\$ORACLE_HOME/rdbms/jlib 
+EOF 
+Add a reference to the "setEnv.sh" file at the end of the "/home/orcldba1/.bash_profile" file. 
+echo "./home/orcldba1/scripts/setEnv.sh" >> /home/orcldba1/.bash_profile 
+Create a "start_all.sh" and "stop_all.sh" script that can be called from a startup/shutdown service. Make sure the ownership and permissions are correct. 
+cat > /home/orcldba1/scripts/start_all.sh <<EOF 
+#!/bin/bash 
+. /home/orcldba1/scripts/setEnv.sh 
+export ORAENV_ASK=NO 
+. oraenv 
+export ORAENV_ASK=YES 
+dbstart \$ORACLE_HOME 
+EOF 
+cat > /home/orcldba1/scripts/stop_all.sh <<EOF 
+#!/bin/bash 
+. /home/orcldba1/scripts/setEnv.sh 
+export ORAENV_ASK=NO 
+. oraenv 
+export ORAENV_ASK=YES 
+dbshut \$ORACLE_HOME 
+EOF 
+chown -R orcldba1.oinstall /home/orcldba1/scripts 
+chmod u+x /home/orcldba1/scripts/*.sh 
+chown -R orcldba1.oinstall /home/orcldba1/scripts 
+chmod u+x /home/orcldba1/scripts/*.sh 
+Once the installation is complete and you've edited the "/etc/oratab", you should be able to start/stop the database with the following scripts run from the "oracle" user. 
+Edit the "/etc/oratab" file setting the restart flag for each instance to 'Y'. 
+devl1ops:/u01/app/orcldb/product/12.2.0.1/db_1:Y 
+~/scripts/start_all.sh 
+~/scripts/stop_all.sh
