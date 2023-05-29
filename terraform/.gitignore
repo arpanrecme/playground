@@ -1,0 +1,6 @@
+secrets*
+*.tfstate*
+*.terraform*
+vault_client_cert_chain.pem
+vault_client_key.pem
+root_ca_certificate.pem
