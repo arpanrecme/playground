@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server port="7805" shutdown="password">
+    <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+    <Listener className="org.apache.catalina.security.SecurityListener" />
+    <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+    <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+    <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+    <GlobalNamingResources>
+        <Resource name="UserDatabase" auth="Container" type="org.apache.catalina.UserDatabase" description="User database that can be updated and saved" factory="org.apache.catalina.users.MemoryUserDatabaseFactory" pathname="conf/tomcat-users.xml" />
+    </GlobalNamingResources>
+    <Service name="Catalina">
+        <Connector connectionTimeout="20000" port="80" protocol="HTTP/1.1" redirectPort="443" />
+        <Connector port="443" protocol="org.apache.coyote.http11.Http11NioProtocol" maxThreads="150" SSLEnabled="true" scheme="https" secure="true">
+            <!--<Connector port="443" protocol="org.apache.coyote.http11.Http11AprProtocol" maxThreads="150" SSLEnabled="true" scheme="https" secure="true"><UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />-->
+            <SSLHostConfig hostName="_default_">
+                <Certificate certificateFile="conf/ssl/serverdns/cert1.pem" certificateKeyFile="conf/ssl/serverdns/privkey1.pem" type="RSA" />
+            </SSLHostConfig>
+            <SSLHostConfig hostName="www.sourceshift.in">
+                <Certificate certificateFile="conf/ssl/www.sourceshift.in/cert1.pem" certificateKeyFile="conf/ssl/www.sourceshift.in/privkey1.pem" type="RSA" />
+            </SSLHostConfig>
+            <SSLHostConfig hostName="sourceshift.in">
+                <Certificate certificateFile="conf/ssl/sourceshift.in/cert1.pem" certificateKeyFile="conf/ssl/sourceshift.in/privkey1.pem" certificateChainFile="conf/ssl/sourceshift.in/chain1.pem" type="RSA" />
+            </SSLHostConfig>
+            <SSLHostConfig hostName="api.sourceshift.in">
+                <Certificate certificateFile="conf/ssl/api.sourceshift.in/cert1.pem" certificateKeyFile="conf/ssl/api.sourceshift.in/privkey1.pem" type="RSA" />
+            </SSLHostConfig>
+            <SSLHostConfig hostName="files.sourceshift.in">
+                <Certificate certificateFile="conf/ssl/files.sourceshift.in/cert1.pem" certificateKeyFile="conf/ssl/files.sourceshift.in/privkey1.pem" type="RSA" />
+            </SSLHostConfig>
+        </Connector>
+        <Engine name="Catalina" defaultHost="serverdns">
+            <Realm className="org.apache.catalina.realm.LockOutRealm">
+                <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase" />
+            </Realm>
+            <Host name="serverdns" appBase="hosts/serverdns" unpackWARs="true" autoDeploy="true">
+                <Alias>serverdns</Alias>
+                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" prefix="vps293167_vps_ovh_ca_access_log" suffix=".log" pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+            </Host>
+            <Host appBase="hosts/www_sourceshift_in" autoDeploy="true" name="www.sourceshift.in" unpackWARs="true">
+                <Alias>www.sourceshift.in</Alias>
+                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="www_sourceshift_in_access_log" suffix=".log" />
+            </Host>
+            <Host appBase="hosts/api_sourceshift_in" autoDeploy="true" name="api.sourceshift.in" unpackWARs="true">
+                <Alias>api.sourceshift.in</Alias>
+                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="api_sourceshift_in_access_log" suffix=".log" />
+            </Host>
+            <Host appBase="hosts/files_sourceshift_in" autoDeploy="true" name="files.sourceshift.in" unpackWARs="true">
+                <Alias>files.sourceshift.in</Alias>
+                <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="files_sourceshift_in_access_log" suffix=".log" />
+            </Host>
+        </Engine>
+    </Service>
+</Server>
