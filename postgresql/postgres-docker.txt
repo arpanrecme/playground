@@ -1,0 +1,14 @@
+docker volume create --name postgres_data
+
+docker volume create --name postgres_data -o type=none -o device=/mnt/ss_storage/data/postgresql-o o=bind
+docker volume create --name postgres_data -o type=none -o device=C:\app\data\postgres -o o=bind
+
+-e PGDATA=/var/lib/postgresql/data/pgdata
+
+docker run --name postgres -e 'TZ=Asia/Kolkata' -e 'PGTZ=GMT+5:30' -e POSTGRES_PASSWORD=mysecretpassword --rm postgres
+
+docker run --rm --name postgres-init -e 'TZ=Asia/Kolkata' \
+    -e 'PGTZ=GMT+5:30' -e 'POSTGRES_PASSWORD=postgres' -p 5432:5432 -v postgres_data:/var/lib/postgresql/data postgres:13.3
+
+docker run -d --name postgres --restart=unless-stopped \
+    -e 'TZ=Asia/Kolkata' -e 'PGTZ=GMT+5:30' -p 5432:5432 -v postgres_data:/var/lib/postgresql/data postgres:13.3
