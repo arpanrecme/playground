@@ -1,0 +1,65 @@
+harpocrates.appsrv-l-arch-nodis-amd64-vz-li-mum-in
+
+1) Device Functions:
+APPSRV = Application Server
+BAKSRV = Backup Server
+BLDENC = Blade Enclosure
+DIRSRV = Directory Server
+EMLSRV = Email Server
+FIREWL = Firewall
+FTPSRV = FTP Server
+HYPVIS = Hypervisor
+NASSRV = NAS File Server
+PDU = Power Distribution Unit
+RPS = Redundant Power Supply
+SANSRV = SAN Appliance
+SQLSRV = SQL Server
+SW-BLD = Blade Enclosure Switch
+SW-SAN = SAN specific switch
+SW-SVR = General server/network switch
+UPS = Uninteruptable Power Supply
+WEBSRV = Web Server
+
+2) OS Brand:
+A = Cisco ASA
+D = Dell Storage Center
+E = Equalizer OS
+F = Embedded Firmware
+I = Cisco IOS
+L = Linux
+M = VMWare
+N = Brocade Network OS
+U = Dell FluidFS
+V = VNXe
+W = Windows
+X = Force 10
+
+3) OS Family
+ARCH = Arch Linux
+RHEL = CentOS, Rehl, Fedora
+DEB = Ubuntu, Debian
+nofam = (optional for Windows)
+
+4) OS Major Distribution Version 
+nodis = (optional for Archlinux)
+Like 7 for Centos7
+
+5) Processor Architecture
+ARM(64/86) = ARM(64/86), AARCH(64/86)
+AMD(64/86) = AMD(64/86), X86_64(64/86)
+
+6) Virtualization type
+ph = Physical
+vz = Virtual
+
+7) Provider Name
+am = Amazon
+li = Linode
+ov = OVH
+gc = GCP
+az = Azure
+
+8) Data Center Location City
+9) Data Center Location Countery
+10) Device Number: Starts with 0
+The number of the device that matches the first 9 parts of the naming scheme.

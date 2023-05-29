@@ -1,0 +1,49 @@
+https://www.linuxuprising.com/2019/12/a-guide-to-using-plank-dock-on-linux.html#:~:text=You%20can%20fix%20this%20by,the%20dock%20to%20remove%20it
+
+install plank
+
+plank is showing bar on screen
+You can fix this by going to Settings -> Window Manager Tweaks -> Compositor and disable Show shadows under dock windows (this will also disable the Xfce panel shadow) To remove a pinned application you can right click it and and uncheck Keep in dock or you can drag the icon and drop it off the dock to remove it.
+
+add plank to startup xfce
+Launch Plank from the applications menu, from the Alt + F2 dialog (by typing plank ), etc. You may also want to add Plank to your startup applications. Most desktop environments have a graphical tool to add applications and commands to startup: Xfce: Settings -> Session and Startup > Application Autostart.
+
+
+https://github.com/horberlan/Teleport-theme
+
+Press Right Ctrl and Right CLick on plank > then add zoom
+
+XFCE panel is showin in plankg , restart will fix this issue
+
+##############################################################################
+
+Theme
+https://github.com/paullinuxthemer/Prof-XFCE-theme
+
+
+
+################################################################
+https://www.xfce-look.org/p/1166289
+
+gtk-update-icon-cache ./
+
+
+Install Moka   https://github.com/snwh/moka-icon-theme
+
+sudo add-apt-repository -u ppa:snwh/ppa  ## Only for ubuntu
+
+sudo apt install moka-icon-theme faba-icon-theme faba-mono-icons
+
+
+##############################################################################
+
+Light DM Debian
+apt install lightdm-gtk-greeter-settings
+
+
+##############################################################################
+
+Install 
+sudo apt install xfce4-whiskermenu-plugin
+and add it panel
+

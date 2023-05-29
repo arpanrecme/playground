@@ -1,0 +1,76 @@
+Get-Service LxssManager | Restart-Service
+Get-Service LxssManager | Stop-Service
+Stop-Service LxssManager
+
+wsl -l -v
+wsl --list --all
+
+wsl.exe --export <DistributionName> <FileName>
+
+wsl.exe --export Debian "D:\wsl\Debian.tar"
+wsl.exe --export ubuntu-xrdp "D:\OS Image\ubuntu-xrdp.tar"
+
+wsl.exe --import Workspace "C:\wslDistroStorage\Ubuntu" "D:\OS Image\Ubuntu.tar"
+
+wsl --distribution <DistributionName>
+
+wsl.exe --unregister <DistributionName>
+
+wsl --import workspace "C:\wslDistroStorage\workspace" "D:\OS Image\Ubuntu-20.04.tar"
+wsl --import debian "C:\wslDistroStorage\debian" "D:\OS Image\Debian.tar"
+
+wsl.exe --unregister <DistributionName>
+
+############################################################################################################################
+############################################################################################################################
+
+Set a default distribution
+The default WSL distribution is the one that runs when you run wsl on a command line.
+
+wsl -s <DistributionName>, wsl --setdefault <DistributionName>
+wsl -s workspace
+
+############################################################################################################################
+############################################################################################################################
+
+https://docs.microsoft.com/en-us/windows/wsl/use-custom-distro
+docker run -t centos bash ls /
+dockerContainerID=$(docker container ls -a | grep -i centos | awk '{print $1}')
+docker export $dockerContainerID > /mnt/c/temp/centos.tar
+
+docker export a5c7f1bee8ff > /mnt/c/temp/centos.tar
+
+Import the tar file into WSL
+Once you have a tar file ready, you can import it using the command: wsl --import <Distro> <InstallLocation> <FileName>.
+Importing CentOS example
+cd C:\temp
+mkdir C:\wslDistroStorage\CentOS
+wsl --import CentOS C:\wslDistroStorage\CentOS .\centos.tar
+wsl -l -v
+
+Add WSL specific components like a default user
+wsl -d CentOS
+
+############################################################################################################################
+
+yum update -y && yum install passwd sudo -y
+myUsername=caloewen
+adduser -G wheel $myUsername
+echo -e "[user]\ndefault=$myUsername" >> /etc/wsl.conf
+passwd $myUsername
+
+useradd -m -s /bin/bash -d /home/arpan arpan
+echo -e "[user]\ndefault=arpan" >> /etc/wsl.conf
+echo "arpan ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/10-arpan
+echo 'export PATH=/home/arpan/.local/bin:$PATH' >> /home/arpan/.bashrc
+echo 'export GPG_TTY=$(tty)' >> /home/arpan/.bashrc
+passwd arpan
+
+#PowerShell
+wsl --shutdown
+wsl -d CentOS
+
+############################################################################################################################
+
+wsl --import ubuntu-xrdp "C:\wslDistroStorage\ubuntu-xrdp" "D:\OS Image\Ubuntu-20.04.tar"
+wsl --import ubuntu-xrdp-unity "C:\wslDistroStorage\ubuntu-xrdp-unity" "D:\OS Image\Ubuntu-20.04.tar"
