@@ -1,0 +1,51 @@
+Use one-time password (OTP)
+Initialize a root token generation.
+
+$ vault operator generate-root -init
+
+A One-Time-Password has been generated for you and is shown in the OTP field.
+You will need this value to decode the resulting root token, so keep it safe.
+Nonce         15565c79-cc9e-5e64-b986-8506e7bd1918
+Started       true
+Progress      0/1
+Complete      false
+OTP           5JFQaH76Ky2TIuSt4SPvO1CGkx
+OTP Length    26
+Copy
+Nonce and one-time password (OTP) are generated. The nonce value should be distributed to all unseal key (recovery key if auto-unseal is used) holders.
+
+NOTE: You will need the OTP value later to decode the generated root token.
+
+Each unseal key holder provides their unseal key.
+
+$ vault operator generate-root
+
+Root generation operation nonce: f67f4da3-4ae4-68fb-4716-91da6b609c3e
+Unseal Key (will be hidden):
+Copy
+If there is a tty, Vault will prompt for the key and automatically complete the nonce value. If there is no tty, or if the value is piped from stdin, the user must specify the nonce value from the -init operation.
+
+$ echo $UNSEAL_KEY | vault operator generate-root -nonce=f67f4da3... -
+Copy
+When the quorum of unseal keys (or recovery keys) are supplied, the final user will also get the encoded root token.
+
+$ vault operator generate-root
+
+Root generation operation nonce: f67f4da3-4ae4-68fb-4716-91da6b609c3e
+Unseal Key (will be hidden):
+
+Nonce            f67f4da3-4ae4-68fb-4716-91da6b609c3e
+Started          true
+Progress         5/5
+Complete         true
+Encoded Token    IxJpyqxn3YafOGhqhvP6cQ==
+Copy
+Decode the encoded token using the OTP generated during the initialization.
+
+$ ./vault.exe -tls-skip-verify -address="https://sa-m1-vault.hld.sourceshift.org:8200" operator generate-root -decode="QksFPgQhW30lLX8cL2VvDHRmEh0CHDw2YQc" -otp="1eIMaU07VkFLjT7A3Rgg6epfQQ"
+
+./vault.exe operator generate-root \
+  -decode=QksFPgQhW30lLX8cL2VvDHRmEh0CHDw2YQc \
+  -otp=1eIMaU07VkFLjT7A3Rgg6epfQQ
+
+24bde68f-3df3-e137-cf4d-014fe9ebc43f

@@ -1,0 +1,29 @@
+docker volume create --name vault_data -o type=none -o device=/mnt/c/app/data/vault/data -o o=bind
+docker volume create --name vault_data -o type=none -o device=C:\app\data\vault\data -o o=bind
+docker volume create --name vault_logs -o type=none -o device=C:\app\data\vault\logs -o o=bind
+docker volume create --name vault_tls -o type=none -o device=C:\app\data\vault\tls -o o=bind
+
+docker run --rm -e VAULT_LOCAL_CONFIG="$(cat raft.json)" ubuntu /bin/bash -c 'echo $VAULT_LOCAL_CONFIG'
+docker run --rm -e VAULT_LOCAL_CONFIG="$((Get-Content -Raw raft.json) -replace '"', '\"')" ubuntu /bin/bash -c 'echo $VAULT_LOCAL_CONFIG'
+
+docker run --cap-add=IPC_LOCK -e 'VAULT_LOCAL_CONFIG={"backend": {"file": {"path": "/vault/file"}}, "default_lease_ttl": "168h", "max_lease_ttl": "720h"}' vault:1.7.2 server
+
+docker run --cap-add=IPC_LOCK -d --name vault `
+-e VAULT_LOCAL_CONFIG="$((Get-Content -Raw raft-s1-dev.json) -replace '"', '\"')" `
+-v vault_data:/vault/file `
+-v vault_logs:/vault/logs `
+-v vault_tls:/vault/tls `
+-p 8200:8200 `
+-p 8201:8201 `
+vault:1.7.2 server
+
+docker run --cap-add=IPC_LOCK -e VAULT_LOCAL_CONFIG="$((Get-Content -Raw file.json) -replace '"', '\"')" -v vault_data:/vault/file -p 8200:8200  vault:1.7.2 server
+
+
+docker run --cap-add=IPC_LOCK -d --name vault `
+-e VAULT_LOCAL_CONFIG="$((Get-Content -Raw pg.json) -replace '"', '\"')" `
+-v vault_logs:/vault/logs `
+-v vault_tls:/vault/tls `
+-p 8200:8200 `
+-p 8201:8201 `
+vault:1.7.2 server

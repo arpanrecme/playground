@@ -1,0 +1,46 @@
+services:
+  vault2:
+    image: 'vault:1.7.2'
+    container_name: vault2
+    ports:
+      - '8200:8200'
+    networks:
+      - vault-raft-netowrk
+    volumes:
+      - './vault2/data:/vault/file'
+      - './vault2/logs:/vault/logs'
+      - './vault2/config:/vault/config'
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/raft.hcl
+  vault3:
+    image: 'vault:1.7.2'
+    container_name: vault3
+    ports:
+      - '8300:8300'
+    networks:
+      - vault-raft-netowrk
+    volumes:
+      - './vault3/data:/vault/file'
+      - './vault3/logs:/vault/logs'
+      - './vault3/config:/vault/config'
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/raft.hcl
+  vault4:
+    image: 'vault:1.7.2'
+    container_name: vault4
+    ports:
+      - '8400:8400'
+    networks:
+      - vault-raft-netowrk
+    volumes:
+      - './vault4/data:/vault/file'
+      - './vault4/logs:/vault/logs'
+      - './vault4/config:/vault/config'
+    cap_add:
+      - IPC_LOCK
+    entrypoint: vault server -config=/vault/config/raft.hcl
+networks:
+  vault-raft-netowrk:
+    driver: bridge

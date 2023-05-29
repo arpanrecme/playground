@@ -1,0 +1,26 @@
+{
+  "api_addr": "https://sa-m1-vault.hld.sourceshift.org:8200",
+  "cluster_addr": "https://sa-m1-vault.hld.sourceshift.org:8201",
+  "cluster_name": "sourceshift.org",
+  "default_lease_ttl": "768h",
+  "disable_clustering": false,
+  "disable_mlock": false,
+  "listener": {
+    "tcp": {
+      "address": "0.0.0.0:8200",
+      "cluster_address": "0.0.0.0:8201",
+      "tls_cert_file": "/vault/config/tls/server.crt",
+      "tls_disable": false,
+      "tls_key_file": "/vault/config/tls/server.key"
+    }
+  },
+  "log_level": "trace",
+  "max_lease_ttl": "768h",
+  "storage": {
+    "raft": {
+      "node_id": "sa-m1",
+      "path": "/vault/file"
+    }
+  },
+  "ui": true
+}

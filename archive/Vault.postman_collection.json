@@ -1,0 +1,4760 @@
+{
+	"info": {
+		"_postman_id": "236b854b-5a3b-45ba-b3f0-435c63e318ed",
+		"name": "Vault",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "System Backend",
+					"item": [
+						{
+							"name": "health",
+							"item": [
+								{
+									"name": "Read Health Information",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/health",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"health"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "init",
+							"item": [
+								{
+									"name": "Read Initialization Status",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/init",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"init"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Start Initialization",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"secret_shares\": 5,\r\n    \"secret_threshold\": 3,\r\n    \"_recovery_shares\": 1,\r\n    \"_recovery_threshold\": 1\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/init",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"init"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "unseal",
+							"item": [
+								{
+									"name": "Submit Unseal Key",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/unseal",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"unseal"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "policy",
+							"item": [
+								{
+									"name": "vault-admin",
+									"item": [
+										{
+											"name": "Create/Update Policy",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"policy\" : \"path \\\"*\\\" {\\ncapabilities = [\\\"create\\\", \\\"read\\\", \\\"update\\\", \\\"delete\\\", \\\"list\\\", \\\"sudo\\\"]\\n}\"\r\n    \r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_VAULT_ADMIN}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read Policy",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_VAULT_ADMIN}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "default",
+									"item": [
+										{
+											"name": "Create/Update Policy",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"policy\" : \"\\n# Allow tokens to look up their own properties\\npath \\\"auth/token/lookup-self\\\" {\\n    capabilities = [\\\"read\\\"]\\n}\\n\\n# Allow tokens to renew themselves\\npath \\\"auth/token/renew-self\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow tokens to revoke themselves\\npath \\\"auth/token/revoke-self\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow a token to look up its own capabilities on a path\\npath \\\"sys/capabilities-self\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow a token to look up its own entity by id or name\\npath \\\"identity/entity/id/{{identity.entity.id}}\\\" {\\n  capabilities = [\\\"read\\\"]\\n}\\npath \\\"identity/entity/name/{{identity.entity.name}}\\\" {\\n  capabilities = [\\\"read\\\"]\\n}\\n\\n\\n# Allow a token to look up its resultant ACL from all policies. This is useful\\n# for UIs. It is an internal path because the format may change at any time\\n# based on how the internal ACL features and capabilities change.\\npath \\\"sys/internal/ui/resultant-acl\\\" {\\n    capabilities = [\\\"read\\\"]\\n}\\n\\n# Allow a token to renew a lease via lease_id in the request body; old path for\\n# old clients, new path for newer\\npath \\\"sys/renew\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\npath \\\"sys/leases/renew\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow looking up lease properties. This requires knowing the lease ID ahead\\n# of time and does not divulge any sensitive information.\\npath \\\"sys/leases/lookup\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow a token to manage its own cubbyhole\\npath \\\"cubbyhole/*\\\" {\\n    capabilities = [\\\"create\\\", \\\"read\\\", \\\"update\\\", \\\"delete\\\", \\\"list\\\"]\\n}\\n\\n# Allow a token to wrap arbitrary values in a response-wrapping token\\npath \\\"sys/wrapping/wrap\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow a token to look up the creation time and TTL of a given\\n# response-wrapping token\\npath \\\"sys/wrapping/lookup\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow a token to unwrap a response-wrapping token. This is a convenience to\\n# avoid client token swapping since this is also part of the response wrapping\\n# policy.\\npath \\\"sys/wrapping/unwrap\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow general purpose tools\\npath \\\"sys/tools/hash\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\npath \\\"sys/tools/hash/*\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\\n# Allow checking the status of a Control Group request if the user has the\\n# accessor\\npath \\\"sys/control-group/request\\\" {\\n    capabilities = [\\\"update\\\"]\\n}\\n\"\r\n    \r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "default"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read Policy",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "default"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "nebula",
+									"item": [
+										{
+											"name": "Create/Update Policy",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"policy\": \"path \\\"secret/data/infra*\\\" {\\ncapabilities = [\\\"read\\\"]\\n}\\npath \\\"secret/metadata/infra*\\\" {\\ncapabilities = [\\\"list\\\"]\\n}\\npath \\\"pki-intermediate-ca-v1/roles/hld-sourceshift/*\\\" {\\ncapabilities = [\\\"read\\\", \\\"list\\\", \\\"update\\\"]\\n}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read Policy",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "harpocrates",
+									"item": [
+										{
+											"name": "Create/Update Policy",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"policy\": \"path \\\"secret/data/harpocrates*\\\" {\\ncapabilities = [\\\"read\\\"]\\n}\\npath \\\"secret/metadata/harpocrates*\\\" {\\ncapabilities = [\\\"list\\\"]\\n}\\npath \\\"database/creds/harpocrates*\\\" {\\ncapabilities = [\\\"read\\\"]\\n}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read Policy",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"policy",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "{{CVR_POLICY_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "List Policies",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"policy"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete Policy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/policy/:name",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"policy",
+												":name"
+											],
+											"variable": [
+												{
+													"key": "name",
+													"value": ""
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "auth",
+							"item": [
+								{
+									"name": "github",
+									"item": [
+										{
+											"name": "Enable Auth Method",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"type\" : \"github\",\r\n    \"config\": {\r\n        \"default_lease_ttl\" : 300,\r\n        \"max_lease_ttl\" : 1800\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_AUTH_GITHUB}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Disable Auth Method",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_AUTH_GITHUB}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "userpass",
+									"item": [
+										{
+											"name": "Enable Auth Method",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"type\" : \"userpass\",\r\n    \"config\": {\r\n        \"default_lease_ttl\" : 900,\r\n        \"max_lease_ttl\" : 3600\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_USERPASS_AUTH_PATH}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Disable Auth Method",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_USERPASS_AUTH_PATH}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "approle",
+									"item": [
+										{
+											"name": "Enable Auth Method",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"type\": \"approle\",\r\n    \"config\": {\r\n        \"default_lease_ttl\": \"768h\",\r\n        \"max_lease_ttl\": 0\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_AUTH_APPROLE}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Disable Auth Method",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"auth",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_AUTH_APPROLE}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "List Auth Methods",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/auth",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"auth"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "mounts",
+							"item": [
+								{
+									"name": "pki",
+									"item": [
+										{
+											"name": "ROOT-CA",
+											"item": [
+												{
+													"name": "Enable Secrets Engine",
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"type\": \"pki\",\r\n    \"description\": \"Source Shift ROOT CA V1\",\r\n    \"config\": {\r\n        \"default_lease_ttl\": \"87600h\",\r\n        \"max_lease_ttl\": \"175200h\"\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+															"host": [
+																"{{CVR_VAULT_API_ENDPOINT}}"
+															],
+															"path": [
+																"sys",
+																"mounts",
+																":path"
+															],
+															"variable": [
+																{
+																	"key": "path",
+																	"value": "{{CVR_PKI_ENGINE_ROOT}}"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "Disable Secrets Engine",
+													"request": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+															"host": [
+																"{{CVR_VAULT_API_ENDPOINT}}"
+															],
+															"path": [
+																"sys",
+																"mounts",
+																":path"
+															],
+															"variable": [
+																{
+																	"key": "path",
+																	"value": "{{CVR_PKI_ENGINE_ROOT}}"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "INTERMEDIATE-CA",
+											"item": [
+												{
+													"name": "Enable Secrets Engine",
+													"request": {
+														"method": "POST",
+														"header": [],
+														"body": {
+															"mode": "raw",
+															"raw": "{\r\n    \"type\": \"pki\",\r\n    \"description\": \"Source Shift Intermediate Vault CA V1\",\r\n    \"config\": {\r\n        \"default_lease_ttl\": \"43800h\",\r\n        \"max_lease_ttl\": \"87600h\"\r\n    }\r\n}",
+															"options": {
+																"raw": {
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+															"host": [
+																"{{CVR_VAULT_API_ENDPOINT}}"
+															],
+															"path": [
+																"sys",
+																"mounts",
+																":path"
+															],
+															"variable": [
+																{
+																	"key": "path",
+																	"value": "{{CVR_PKI_ENGINE_INTERMEDIATE}}"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "Disable Secrets Engine",
+													"request": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+															"host": [
+																"{{CVR_VAULT_API_ENDPOINT}}"
+															],
+															"path": [
+																"sys",
+																"mounts",
+																":path"
+															],
+															"variable": [
+																{
+																	"key": "path",
+																	"value": "{{CVR_PKI_ENGINE_INTERMEDIATE}}"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "kv",
+									"item": [
+										{
+											"name": "Enable Secrets Engine - KV2 secret",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"type\": \"kv\",\r\n    \"options\": {\r\n        \"version\": \"2\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"mounts",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_KV_ENGINE}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "database",
+									"item": [
+										{
+											"name": "Enable Secrets Engine",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"type\": \"database\",\r\n    \"description\": \"Database RBAC\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"mounts",
+														":path"
+													],
+													"variable": [
+														{
+															"key": "path",
+															"value": "{{CVR_DATABASE_ENGINE}}"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "List Mounted Secrets Engines",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "X-Vault-Token",
+												"value": "{{vault_token}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"mounts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Tune Mount Configuration",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"description\": \"Source Shift Intermediate Vault CA V1\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path/tune",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"mounts",
+												":path",
+												"tune"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": ""
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Mount Configuration",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/mounts/:path/tune",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"mounts",
+												":path",
+												"tune"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": ""
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "audit",
+							"item": [
+								{
+									"name": "List Enabled Audit Devices",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/audit",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"audit"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "storage",
+							"item": [
+								{
+									"name": "raft",
+									"item": [
+										{
+											"name": "Read Raft Configuration",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/storage/raft/configuration",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"storage",
+														"raft",
+														"configuration"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Take a snapshot of the Raft cluster",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/storage/raft/snapshot",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"sys",
+														"storage",
+														"raft",
+														"snapshot"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "capabilities-self",
+							"item": [
+								{
+									"name": "Query Self Capabilities",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"paths\": [\r\n        \"*\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/capabilities-self",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"capabilities-self"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "namespaces",
+							"item": [
+								{
+									"name": "List Namespaces",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/namespaces",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"namespaces"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Namespace",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/namespaces/:path",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"namespaces",
+												":path"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "n1"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "generate-root",
+							"item": [
+								{
+									"name": "Read Root Generation Progress",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/generate-root/attempt",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"generate-root",
+												"attempt"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Start Root Token Generation",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/generate-root/attempt",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"generate-root",
+												"attempt"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Cancel Root Generation",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/generate-root/attempt",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"generate-root",
+												"attempt"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Provide Key Share to Generate Root",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"key\": \"\",\r\n    \"nonce\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/generate-root/update",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"generate-root",
+												"update"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"auth": {
+								"type": "noauth"
+							},
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "openapi",
+							"item": [
+								{
+									"name": "Read Root Generation Progress",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/internal/specs/openapi",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"internal",
+												"specs",
+												"openapi"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "metrics",
+							"item": [
+								{
+									"name": "Read Telemetry Metrics",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/metrics",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"metrics"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "leases",
+							"item": [
+								{
+									"name": "Revoke Lease",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"lease_id\": \"\",\r\n    \"sync\": false\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/sys/leases/revoke",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"sys",
+												"leases",
+												"revoke"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Secrets Engines",
+					"item": [
+						{
+							"name": "PKI Secrets Engine",
+							"item": [
+								{
+									"name": "ROOT-CA",
+									"item": [
+										{
+											"name": "Set URLs",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"issuing_certificates\": [\r\n        \"{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/ca\"\r\n    ],\r\n    \"crl_distribution_points\": [\r\n        \"{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/crl\"\r\n    ]\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/config/urls",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"config",
+														"urls"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get URLs",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/config/urls",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"config",
+														"urls"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Set CRL Configuration",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expiry\": \"72h\",\r\n    \"disable\": false\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/config/crl",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"config",
+														"crl"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read CRL Configuration",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/config/crl",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"config",
+														"crl"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Generate Root",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"common_name\": \"Source Shift ROOT CA V1\",\r\n    \"ttl\": \"175200h\",\r\n    \"format\": \"pem_bundle\",\r\n    \"key_type\": \"rsa\",\r\n    \"key_bits\": \"2048\",\r\n    \"ou\": \"Source Shift CA\",\r\n    \"organization\": \"Source Shift Organization\",\r\n    \"country\": \"IN\",\r\n    \"locality\": \"Arambagh\",\r\n    \"province\": \"West Bengal\",\r\n    \"postal_code\": \"712613\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/root/generate/:type",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"root",
+														"generate",
+														":type"
+													],
+													"variable": [
+														{
+															"key": "type",
+															"value": "internal"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Sign Intermediate",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"csr\": \"\",\r\n    \"use_csr_values\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/root/sign-intermediate",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"root",
+														"sign-intermediate"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete Root",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/root",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"root"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Tidy",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"tidy_cert_store\": true,\r\n    \"tidy_revoked_certs\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/tidy",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"tidy"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "List Certificates",
+											"request": {
+												"method": "LIST",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_ROOT}}/certs",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_ROOT}}",
+														"certs"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								},
+								{
+									"name": "INTERMEDIATE-CA",
+									"item": [
+										{
+											"name": "Set URLs",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"issuing_certificates\": [\r\n        \"{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/ca\"\r\n    ],\r\n    \"crl_distribution_points\": [\r\n        \"{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/crl\"\r\n    ]\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/config/urls",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"config",
+														"urls"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Get URLs",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/config/urls",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"config",
+														"urls"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Set CRL Configuration",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"expiry\": \"72h\",\r\n    \"disable\": false\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/config/crl",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"config",
+														"crl"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read CRL Configuration",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/config/crl",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"config",
+														"crl"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Generate Intermediate",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"common_name\": \"Source Shift Intermediate Vault CA V1\",\r\n    \"ttl\": \"87600h\",\r\n    \"format\": \"pem_bundle\",\r\n    \"key_type\": \"rsa\",\r\n    \"key_bits\": \"2048\",\r\n    \"locality\": \"Bengaluru\",\r\n    \"province\": \"Karnataka\",\r\n    \"postal_code\": \"560043\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/intermediate/generate/:type",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"intermediate",
+														"generate",
+														":type"
+													],
+													"variable": [
+														{
+															"key": "type",
+															"value": "internal"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Set Signed Intermediate",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"certificate\": \"\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/intermediate/set-signed",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"intermediate",
+														"set-signed"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Create/Update Role - hld-sourceshift",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"ttl\": 604800,\r\n    \"max_ttl\": 2419200,\r\n    \"allow_localhost\": false,\r\n    \"allowed_domains\": [\r\n        \"hld.sourceshift.org\",\r\n        \"hld.sourceshift.in\"\r\n    ],\r\n    \"allow_subdomains\": true,\r\n    \"allow_bare_domains\": false,\r\n    \"allow_glob_domains\": false,\r\n    \"server_flag\": true,\r\n    \"client_flag\": false,\r\n    \"code_signing_flag\": false,\r\n    \"email_protection_flag\": false,\r\n    \"key_type\": \"rsa\",\r\n    \"key_bits\": 2048,\r\n    \"key_usage\": [\r\n        \"DigitalSignature\",\r\n        \"KeyAgreement\",\r\n        \"KeyEncipherment\"\r\n    ],\r\n    \"ext_key_usage\": [\r\n        \"ExtKeyUsageServerAuth\",\r\n        \"ExtKeyUsageClientAuth\",\r\n        \"ExtKeyUsageCodeSigning\",\r\n        \"ExtKeyUsageEmailProtection\",\r\n        \"ExtKeyUsageIPSECEndSystem\",\r\n        \"ExtKeyUsageIPSECTunnel\",\r\n        \"ExtKeyUsageIPSECUser\",\r\n        \"ExtKeyUsageTimeStamping\",\r\n        \"ExtKeyUsageOCSPSigning\",\r\n        \"ExtKeyUsageMicrosoftServerGatedCrypto\",\r\n        \"ExtKeyUsageNetscapeServerGatedCrypto\",\r\n        \"ExtKeyUsageMicrosoftCommercialCodeSigning\",\r\n        \"ExtKeyUsageMicrosoftKernelCodeSigning\"\r\n    ],\r\n    \"use_csr_common_name\" : true,\r\n    \"use_csr_sans\" : true,\r\n    \"require_cn\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/roles/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"roles",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "hld-sourceshift"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read Role - hld-sourceshift",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/roles/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"roles",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "hld-sourceshift"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Generate Certificate - hld-sourceshift",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"common_name\": \"portainer.hld.sourceshift.org\",\r\n    \"alt_names\": \"portainer.hld.sourceshift.org,portainer.hld.sourceshift.in\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/issue/:name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"issue",
+														":name"
+													],
+													"variable": [
+														{
+															"key": "name",
+															"value": "hld-sourceshift"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "List Certificates",
+											"request": {
+												"method": "LIST",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_PKI_ENGINE_INTERMEDIATE}}/certs",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"{{CVR_PKI_ENGINE_INTERMEDIATE}}",
+														"certs"
+													]
+												}
+											},
+											"response": []
+										}
+									],
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"type": "text/javascript",
+												"exec": [
+													""
+												]
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "KV Secrets Engine - Version 2",
+							"item": [
+								{
+									"name": "Configure the KV Engine",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"cas_required\": false,\r\n    \"max_versions\": 20,\r\n    \"delete_version_after\": \"0s\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/config",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"config"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read KV Engine configuration",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/config",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"config"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create/Update Secret",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"data\": {\r\n            \"ansible_host\": \"{{  ip  }}\",\r\n            \"ansible_ssh_pass\": \"{{  password  }}\",\r\n            \"ansible_user\": \"{{  username  }}\",\r\n            \"ip\": \"127.0.0.1\",\r\n            \"password\": \"password\",\r\n            \"username\": \"username\",\r\n            \"ansible_become_password\" : \"{{  password  }}\"\r\n        }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/data/:path",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"data",
+												":path"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "infra/vbox/localhost"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Secret Version",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/data/:path?version=2",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"data",
+												":path"
+											],
+											"query": [
+												{
+													"key": "version",
+													"value": "2"
+												}
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "infra/fileserver"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Secret",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/data/:path",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"data",
+												":path"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "infra/vbox/localhost"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Secrets",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/metadata/:path",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"metadata",
+												":path"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "infra"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Secret Metadata",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/metadata/:path",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_KV_ENGINE}}",
+												"metadata",
+												":path"
+											],
+											"variable": [
+												{
+													"key": "path",
+													"value": "infra/fileserver"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Database",
+							"item": [
+								{
+									"name": "PostgreSQL",
+									"item": [
+										{
+											"name": "DBA",
+											"item": [
+												{
+													"name": "Connection",
+													"item": [
+														{
+															"name": "Configure Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n  \"plugin_name\": \"postgresql-database-plugin\",\r\n  \"allowed_roles\": \"{{CVR_POSTGRESQL_DBA_CONNECTION}}*\",\r\n  \"connection_url\": \"postgresql://{{username}}:{{password}}@pg13.hld.sourceshift.org:5432/postgres?sslmode=disable;\",\r\n  \"root_rotation_statements\" : \"ALTER USER \\\"{{username}}\\\" WITH PASSWORD '{{password}}';\",\r\n  \"max_open_connections\": 5,\r\n  \"max_connection_lifetime\": \"5s\",\r\n  \"username\": \"postgres\",\r\n  \"password\": \"postgres\",\r\n    \"verify_connection\": false\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Connection",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Rotate Root Credentials",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/rotate-root/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"rotate-root",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Reset Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/reset/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"reset",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Connection",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												},
+												{
+													"name": "Role",
+													"item": [
+														{
+															"name": "Create Role",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"db_name\": \"{{CVR_POSTGRESQL_DBA_CONNECTION}}\",\r\n    \"creation_statements\": [\r\n        \"CREATE ROLE \\\"{{name}}\\\" SUPERUSER LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';\"\r\n    ],\r\n    \"revocation_statements\": [\r\n        \"REASSIGN OWNED BY \\\"{{name}}\\\" TO \\\"postgres\\\";\",\r\n        \"DROP OWNED BY \\\"{{name}}\\\";\",\r\n        \"REVOKE ALL ON DATABASE \\\"postgres\\\" FROM \\\"{{name}}\\\";\",\r\n        \"DROP ROLE \\\"{{name}}\\\";\"\r\n    ],\r\n    \"renew_statements\": \"ALTER ROLE \\\"{{name}}\\\" PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';\",\r\n    \"default_ttl\": 3600,\r\n    \"max_ttl\": \"24h\"\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Role",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Role",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Generate Credentials",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/creds/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"creds",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "harpocrates",
+											"item": [
+												{
+													"name": "Connection",
+													"item": [
+														{
+															"name": "Configure Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"plugin_name\": \"postgresql-database-plugin\",\r\n    \"allowed_roles\": \"{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}*\",\r\n    \"connection_url\": \"postgresql://{{username}}:{{password}}@pg13.hld.sourceshift.org:5432/harpocrates?sslmode=disable;\",\r\n    \"root_rotation_statements\": [\r\n        \"ALTER USER \\\"{{username}}\\\" WITH PASSWORD '{{password}}';\"\r\n    ],\r\n    \"max_open_connections\": 5,\r\n    \"max_connection_lifetime\": \"5s\",\r\n    \"username\": \"harpocrates\",\r\n    \"password\": \"harpocrates\",\r\n    \"verify_connection\": false\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Connection",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Rotate Root Credentials",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/rotate-root/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"rotate-root",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Reset Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/reset/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"reset",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Connection",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												},
+												{
+													"name": "Role",
+													"item": [
+														{
+															"name": "Create Role",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"db_name\": \"{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}\",\r\n    \"creation_statements\": [\r\n        \"CREATE ROLE \\\"{{name}}\\\" LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';\",\r\n        \"grant ALL PRIVILEGES ON DATABASE \\\"harpocrates\\\" TO \\\"{{name}}\\\";\"\r\n    ],\r\n    \"revocation_statements\": [\r\n        \"REASSIGN OWNED BY \\\"{{name}}\\\" TO \\\"harpocrates\\\";\",\r\n        \"DROP OWNED BY \\\"{{name}}\\\";\",\r\n        \"REVOKE ALL ON DATABASE \\\"harpocrates\\\" FROM \\\"{{name}}\\\";\",\r\n        \"DROP ROLE \\\"{{name}}\\\";\"\r\n    ],\r\n    \"renew_statements\": \"ALTER ROLE \\\"{{name}}\\\" PASSWORD '{{password}}' VALID UNTIL '{{expiration}}';\",\r\n    \"default_ttl\": 3600,\r\n    \"max_ttl\": \"24h\"\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Role",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Role",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Generate Credentials",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/creds/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"creds",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_POSTGRESQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "MySQL/MariaDB Database",
+									"item": [
+										{
+											"name": "DBA",
+											"item": [
+												{
+													"name": "Connection",
+													"item": [
+														{
+															"name": "Configure Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"plugin_name\": \"mysql-database-plugin\",\r\n    \"allowed_roles\": \"{{CVR_MYSQL_DBA_CONNECTION}}*\",\r\n    \"connection_url\": \"{{username}}:{{password}}@tcp(mysql.hld.sourceshift.org:3306)/\",\r\n    \"root_rotation_statements\": \"SET PASSWORD = '{{password}}'\",\r\n    \"max_open_connections\": 5,\r\n    \"max_connection_lifetime\": \"5s\",\r\n    \"username\": \"root\",\r\n    \"password\": \"root\",\r\n    \"verify_connection\": false\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Connection",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Rotate Root Credentials",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/rotate-root/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"rotate-root",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Reset Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/reset/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"reset",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Connection",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												},
+												{
+													"name": "Role",
+													"item": [
+														{
+															"name": "Create Role",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"db_name\": \"{{CVR_MYSQL_DBA_CONNECTION}}\",\r\n    \"creation_statements\": [\r\n        \"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';\",\r\n        \"GRANT ALL PRIVILEGES ON *.* TO '{{name}}'@'%';\",\r\n        \"GRANT Grant option ON *.* TO '{{name}}'@'%';\",\r\n        \"flush privileges;\"\r\n    ],\r\n    \"revocation_statements\": [\r\n        \"REVOKE ALL PRIVILEGES ON *.* FROM '{{name}}'@'%';\",\r\n        \"REVOKE Grant option ON *.* FROM '{{name}}'@'%';\",\r\n        \"flush privileges;\",\r\n        \"DROP USER IF EXISTS '{{name}}'@'%' ;\"\r\n    ],\r\n    \"renew_statements\": [\r\n        \"ALTER USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';\",\r\n        \"flush privileges;\"\r\n    ],\r\n    \"default_ttl\": 3600,\r\n    \"max_ttl\": \"24h\"\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Role",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Role",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Generate Credentials",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/creds/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"creds",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_DBA_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												}
+											]
+										},
+										{
+											"name": "harpocrates",
+											"item": [
+												{
+													"name": "Connection",
+													"item": [
+														{
+															"name": "Configure Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"plugin_name\": \"mysql-database-plugin\",\r\n    \"allowed_roles\": \"{{CVR_MYSQL_HARPOCRATES_CONNECTION}}*\",\r\n    \"connection_url\": \"{{username}}:{{password}}@tcp(mysql.hld.sourceshift.org:3306)/\",\r\n    \"root_rotation_statements\": \"SET PASSWORD = '{{password}}'\",\r\n    \"max_open_connections\": 5,\r\n    \"max_connection_lifetime\": \"5s\",\r\n    \"username\": \"harpocrates\",\r\n    \"password\": \"harpocrates\",\r\n    \"verify_connection\": false\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Connection",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Rotate Root Credentials",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/rotate-root/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"rotate-root",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Reset Connection",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/reset/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"reset",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Connection",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"config",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												},
+												{
+													"name": "Role",
+													"item": [
+														{
+															"name": "Create Role",
+															"request": {
+																"method": "POST",
+																"header": [],
+																"body": {
+																	"mode": "raw",
+																	"raw": "{\r\n    \"db_name\": \"{{CVR_MYSQL_HARPOCRATES_CONNECTION}}\",\r\n    \"creation_statements\": [\r\n        \"CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';\",\r\n        \"GRANT ALL PRIVILEGES ON harpocrates.* TO '{{name}}'@'%';\",\r\n        \"GRANT Grant option ON harpocrates.* TO '{{name}}'@'%';\",\r\n        \"flush privileges;\"\r\n    ],\r\n    \"revocation_statements\": [\r\n        \"REVOKE ALL PRIVILEGES ON harpocrates.* FROM '{{name}}'@'%';\",\r\n        \"REVOKE Grant option ON harpocrates.* FROM '{{name}}'@'%';\",\r\n        \"flush privileges;\",\r\n        \"DROP USER IF EXISTS '{{name}}'@'%' ;\"\r\n    ],\r\n    \"renew_statements\": [\r\n        \"ALTER USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';\",\r\n        \"flush privileges;\"\r\n    ],\r\n    \"default_ttl\": 3600,\r\n    \"max_ttl\": \"24h\"\r\n}",
+																	"options": {
+																		"raw": {
+																			"language": "json"
+																		}
+																	}
+																},
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Read Role",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Delete Role",
+															"request": {
+																"method": "DELETE",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"roles",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														},
+														{
+															"name": "Generate Credentials",
+															"request": {
+																"method": "GET",
+																"header": [],
+																"url": {
+																	"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/creds/:name",
+																	"host": [
+																		"{{CVR_VAULT_API_ENDPOINT}}"
+																	],
+																	"path": [
+																		"{{CVR_DATABASE_ENGINE}}",
+																		"creds",
+																		":name"
+																	],
+																	"variable": [
+																		{
+																			"key": "name",
+																			"value": "{{CVR_MYSQL_HARPOCRATES_ROLE}}"
+																		}
+																	]
+																}
+															},
+															"response": []
+														}
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "List Roles",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/roles",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_DATABASE_ENGINE}}",
+												"roles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Connections",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_DATABASE_ENGINE}}/config",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_DATABASE_ENGINE}}",
+												"config"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "auth",
+					"item": [
+						{
+							"name": "GitHub Auth Method",
+							"item": [
+								{
+									"name": "Configure Method",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"organization\": \"sourceshift\",\r\n    \"base_url\": \"https://api.github.com\",\r\n    \"token_ttl\": 300,\r\n    \"token_max_ttl\": 1800,\r\n    \"token_explicit_max_ttl\" : 1800,\r\n    \"token_policies\": [\r\n        \"default\"\r\n    ],\r\n    \"token_period\": 0\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_GITHUB}}/config",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_GITHUB}}",
+												"config"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Configuration",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_GITHUB}}/config",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_GITHUB}}",
+												"config"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Map Team Mapping - admins",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"value\": \"{{CVR_POLICY_VAULT_ADMIN}},default\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_GITHUB}}/map/teams/:team_name",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_GITHUB}}",
+												"map",
+												"teams",
+												":team_name"
+											],
+											"variable": [
+												{
+													"key": "team_name",
+													"value": "admins"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Team Mapping - admins",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_GITHUB}}/map/teams/:team_name",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_GITHUB}}",
+												"map",
+												"teams",
+												":team_name"
+											],
+											"variable": [
+												{
+													"key": "team_name",
+													"value": "admins"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var jsonData = JSON.parse(responseBody);\r",
+													"pm.collectionVariables.set(\"CVR_AUTOSET_X_VAULT_TOKEN\", jsonData.auth.client_token);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"token\": \"actual_token\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_GITHUB}}/login",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_GITHUB}}",
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Userpass Auth Method",
+							"item": [
+								{
+									"name": "Create/Update User",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"password\",\r\n    \"token_policies\": [\r\n        \"admin\"\r\n    ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_USERPASS_AUTH_PATH}}/users/:username",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_USERPASS_AUTH_PATH}}",
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "amandal"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read User",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_USERPASS_AUTH_PATH}}/users/:username",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_USERPASS_AUTH_PATH}}",
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "amandal"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Users",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_USERPASS_AUTH_PATH}}/users",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_USERPASS_AUTH_PATH}}",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"password\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_USERPASS_AUTH_PATH}}/login/:username",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_USERPASS_AUTH_PATH}}",
+												"login",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "amandal"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Token Auth Method",
+							"item": [
+								{
+									"name": "List Accessors",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/accessors",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"accessors"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lookup a Token (Self)",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/lookup-self",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"lookup-self"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Renew a Token (Self)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"increment\": \"999h\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/renew-self",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"renew-self"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Revoke a Token (Self)",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/revoke-self",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"revoke-self"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Token Roles",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/roles",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"roles"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"policies\": [\r\n        \"vault-admin\"\r\n    ],\r\n    \"ttl\": \"768h\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/create",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"create"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Orphan Token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"ttl\": \"768h\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/create-orphan",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"create-orphan"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Lookup a Token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"token\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/lookup",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"lookup"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Renew a Token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"token\": \"s.pDHBloYyoMdEutf1Nx0nCb8Z\",\r\n    \"increment\": \"900h\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/renew",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"renew"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Revoke a Token",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"token\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/revoke",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"revoke"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Revoke Token and Orphan Children",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"token\": \"s.9wyTQRvDAxDKUib6Fb8cxoww\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_TOKEN}}/revoke-orphan",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_TOKEN}}",
+												"revoke-orphan"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"exec": [
+											""
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "AppRole Auth Method",
+							"item": [
+								{
+									"name": "nebula",
+									"item": [
+										{
+											"name": "Create/Update AppRole",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"token_ttl\": 604800,\r\n    \"token_max_ttl\": 0,\r\n    \"secret_id_ttl\": 300,\r\n    \"token_policies\": [\r\n        \"default\",\r\n        \"{{CVR_POLICY_NEBULA}}\"\r\n    ],\r\n    \"period\": 604800,\r\n    \"bind_secret_id\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read AppRole",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update AppRole Role ID",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"role_id\": \"{{CVR_APPROLE_NEBULA}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/role-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"role-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read AppRole Role ID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_APPROLE_NEBULA_ROLE_ID\", jsonData.data.role_id);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/role-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"role-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Generate New Secret ID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_APPROLE_NEBULA_SECRETID\", jsonData.data.secret_id);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/secret-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"secret-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete AppRole",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_NEBULA}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Login",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_X_VAULT_TOKEN\", jsonData.auth.client_token);"
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"role_id\": \"{{CVR_AUTOSET_APPROLE_NEBULA_ROLE_ID}}\",\r\n  \"secret_id\": \"{{CVR_AUTOSET_APPROLE_NEBULA_SECRETID}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/login",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"login"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "harpocrates",
+									"item": [
+										{
+											"name": "Create/Update AppRole",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"token_ttl\": 604800,\r\n    \"token_max_ttl\": 0,\r\n    \"secret_id_ttl\": 300,\r\n    \"token_policies\": [\r\n        \"default\",\r\n        \"{{CVR_POLICY_HARPOCRATES}}\"\r\n    ],\r\n    \"period\": 604800,\r\n    \"bind_secret_id\": true\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read AppRole",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Update AppRole Role ID",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"role_id\": \"{{CVR_APPROLE_HARPOCRATES}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/role-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"role-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Read AppRole Role ID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_APPROLE_HARPOCRATES_ROLE_ID\", jsonData.data.role_id);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/role-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"role-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Generate New Secret ID",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_APPROLE_HARPOCRATES_SECRETID\", jsonData.data.secret_id);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name/secret-id",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name",
+														"secret-id"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Delete AppRole",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role/:role_name",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"role",
+														":role_name"
+													],
+													"variable": [
+														{
+															"key": "role_name",
+															"value": "{{CVR_APPROLE_HARPOCRATES}}"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "Login",
+											"event": [
+												{
+													"listen": "prerequest",
+													"script": {
+														"exec": [
+															""
+														],
+														"type": "text/javascript"
+													}
+												},
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var jsonData = JSON.parse(responseBody);\r",
+															"pm.collectionVariables.set(\"CVR_AUTOSET_X_VAULT_TOKEN\", jsonData.auth.client_token);"
+														],
+														"type": "text/javascript"
+													}
+												}
+											],
+											"request": {
+												"auth": {
+													"type": "noauth"
+												},
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"role_id\": \"{{CVR_AUTOSET_APPROLE_HARPOCRATES_ROLE_ID}}\",\r\n  \"secret_id\": \"{{CVR_AUTOSET_APPROLE_HARPOCRATES_SECRETID}}\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/login",
+													"host": [
+														"{{CVR_VAULT_API_ENDPOINT}}"
+													],
+													"path": [
+														"auth",
+														"{{CVR_AUTH_APPROLE}}",
+														"login"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "List Roles",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/auth/{{CVR_AUTH_APPROLE}}/role",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"auth",
+												"{{CVR_AUTH_APPROLE}}",
+												"role"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Identity",
+					"item": [
+						{
+							"name": "Entity",
+							"item": [
+								{
+									"name": "List Entities by ID",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_IDENTITY_ENGINE}}/entity/id",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_IDENTITY_ENGINE}}",
+												"entity",
+												"id"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "List Entities by Name",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_IDENTITY_ENGINE}}/entity/name",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_IDENTITY_ENGINE}}",
+												"entity",
+												"name"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "entity-alias",
+							"item": [
+								{
+									"name": "List Entity Aliases by ID",
+									"request": {
+										"method": "LIST",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_IDENTITY_ENGINE}}/entity-alias/id",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_IDENTITY_ENGINE}}",
+												"entity-alias",
+												"id"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Read Entity Alias by ID",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_IDENTITY_ENGINE}}/entity-alias/id/:id",
+											"host": [
+												"{{CVR_VAULT_API_ENDPOINT}}"
+											],
+											"path": [
+												"{{CVR_IDENTITY_ENGINE}}",
+												"entity-alias",
+												"id",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": ""
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "work",
+			"item": [
+				{
+					"name": "PostgreSQL Database Plugin",
+					"item": []
+				},
+				{
+					"name": "secret",
+					"item": [
+						{
+							"name": "List Secrets",
+							"request": {
+								"method": "LIST",
+								"header": [],
+								"url": {
+									"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/metadata/:path",
+									"host": [
+										"{{CVR_VAULT_API_ENDPOINT}}"
+									],
+									"path": [
+										"{{CVR_KV_ENGINE}}",
+										"metadata",
+										":path"
+									],
+									"variable": [
+										{
+											"key": "path",
+											"value": "infra"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create/Update Secret",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"data\": {\r\n        \"url\": \"pg13.hld.sourceshift.org\",\r\n        \"password\": \"YZDTnVMD68fzakVVhp.h8Mn44ktZpw$nFbkFchP9-JX4VQ5ntAx9bT39GpNGYUT\",\r\n        \"port\": 5432,\r\n        \"username\": \"postgres\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/data/database/postgres",
+									"host": [
+										"{{CVR_VAULT_API_ENDPOINT}}"
+									],
+									"path": [
+										"{{CVR_KV_ENGINE}}",
+										"data",
+										"database",
+										"postgres"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Secret Metadata",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/metadata/:path",
+									"host": [
+										"{{CVR_VAULT_API_ENDPOINT}}"
+									],
+									"path": [
+										"{{CVR_KV_ENGINE}}",
+										"metadata",
+										":path"
+									],
+									"variable": [
+										{
+											"key": "path",
+											"value": "infra/fileserver"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read Secret",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{CVR_VAULT_API_ENDPOINT}}/{{CVR_KV_ENGINE}}/data/database/postgres",
+									"host": [
+										"{{CVR_VAULT_API_ENDPOINT}}"
+									],
+									"path": [
+										"{{CVR_KV_ENGINE}}",
+										"data",
+										"database",
+										"postgres"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{CVR_AUTOSET_X_VAULT_TOKEN}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "X-Vault-Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CVR_AUTOSET_X_VAULT_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "CVR_VAULT_ADDR",
+			"value": "https://sa-m1-vault.hld.sourceshift.org:8200"
+		},
+		{
+			"key": "CVR_VAULT_API_VERSION",
+			"value": "v1"
+		},
+		{
+			"key": "CVR_VAULT_API_ENDPOINT",
+			"value": "{{CVR_VAULT_ADDR}}/{{CVR_VAULT_API_VERSION}}"
+		},
+		{
+			"key": "CVR_AUTH_TOKEN",
+			"value": "token"
+		},
+		{
+			"key": "CVR_AUTH_GITHUB",
+			"value": "github"
+		},
+		{
+			"key": "CVR_USERPASS_AUTH_PATH",
+			"value": "userpass"
+		},
+		{
+			"key": "CVR_PKI_ENGINE_ROOT",
+			"value": "pki-root-ca-v1"
+		},
+		{
+			"key": "CVR_PKI_ENGINE_INTERMEDIATE",
+			"value": "pki-intermediate-ca-v1"
+		},
+		{
+			"key": "CVR_KV_ENGINE",
+			"value": "secret"
+		},
+		{
+			"key": "CVR_POLICY_VAULT_ADMIN",
+			"value": "vault_admin"
+		},
+		{
+			"key": "CVR_AUTH_APPROLE",
+			"value": "approle"
+		},
+		{
+			"key": "CVR_POLICY_NEBULA",
+			"value": "nebula"
+		},
+		{
+			"key": "CVR_APPROLE_NEBULA",
+			"value": "nebula"
+		},
+		{
+			"key": "CVR_AUTOSET_APPROLE_NEBULA_ROLE_ID",
+			"value": ""
+		},
+		{
+			"key": "CVR_AUTOSET_APPROLE_NEBULA_SECRETID",
+			"value": ""
+		},
+		{
+			"key": "CVR_DATABASE_ENGINE",
+			"value": "database"
+		},
+		{
+			"key": "CVR_POSTGRESQL_DBA_CONNECTION",
+			"value": "dba_postgresql"
+		},
+		{
+			"key": "CVR_POSTGRESQL_DBA_ROLE",
+			"value": "{{CVR_POSTGRESQL_DBA_CONNECTION}}"
+		},
+		{
+			"key": "CVR_POLICY_HARPOCRATES",
+			"value": "harpocrates"
+		},
+		{
+			"key": "CVR_APPROLE_HARPOCRATES",
+			"value": "harpocrates"
+		},
+		{
+			"key": "CVR_POSTGRESQL_HARPOCRATES_CONNECTION",
+			"value": "harpocrates_postgres"
+		},
+		{
+			"key": "CVR_POSTGRESQL_HARPOCRATES_ROLE",
+			"value": "{{CVR_POSTGRESQL_HARPOCRATES_CONNECTION}}"
+		},
+		{
+			"key": "CVR_MYSQL_DBA_CONNECTION",
+			"value": "dba_mysql"
+		},
+		{
+			"key": "CVR_MYSQL_DBA_ROLE",
+			"value": "{{CVR_MYSQL_DBA_CONNECTION}}"
+		},
+		{
+			"key": "CVR_MYSQL_HARPOCRATES_CONNECTION",
+			"value": "harpocrates_mysql"
+		},
+		{
+			"key": "CVR_MYSQL_HARPOCRATES_ROLE",
+			"value": "{{CVR_MYSQL_HARPOCRATES_CONNECTION}}"
+		},
+		{
+			"key": "CVR_AUTOSET_APPROLE_HARPOCRATES_ROLE_ID",
+			"value": ""
+		},
+		{
+			"key": "CVR_AUTOSET_APPROLE_HARPOCRATES_SECRETID",
+			"value": ""
+		},
+		{
+			"key": "CVR_IDENTITY_ENGINE",
+			"value": "identity"
+		}
+	]
+}

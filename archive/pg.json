@@ -1,0 +1,28 @@
+{
+  "api_addr": "https://s1-dev-p1-vault.hld.sourceshift.org:8200",
+  "cluster_addr": "https://s1-dev-p1-vault.hld.sourceshift.org:8201",
+  "cluster_name": "sourceshift.org",
+  "default_lease_ttl": "768h",
+  "disable_clustering": "false",
+  "disable_mlock": "true",
+  "listener": {
+    "tcp": {
+      "address": "0.0.0.0:8200",
+      "cluster_address": "0.0.0.0:8201",
+      "tls_disable": true,
+      "tls_cert_file": "/vault/tls/server.crt",
+      "tls_key_file": "/vault/tls/server.key"
+    }
+  },
+  "log_level": "trace",
+  "max_lease_ttl": "768h",
+  "storage": {
+    "postgresql": {
+      "connection_url": "postgres://postgres:postgres@192.168.0.113:5432/vault?search_path=appdata&sslmode=disable",
+      "table": "vault_kv_store",
+      "ha_enabled": "true",
+      "ha_table": "vault_ha_locks"
+    }
+  },
+  "ui": "true"
+}
