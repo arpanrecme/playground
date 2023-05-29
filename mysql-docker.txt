@@ -1,0 +1,20 @@
+docker volume create --name mysql_data
+
+docker volume create --name mysql_data -o type=none -o device=/app/data/mysql -o o=bind
+docker volume create --name mysql_data -o type=none -o device=D:\mysql-data -o o=bind
+
+docker run --name mysql --rm \
+--hostname mysql.hld.sourceshift.org \
+-e 'TZ=Asia/Kolkata' \
+-e 'MYSQL_ROOT_PASSWORD=root' \
+-p 3306:3306 \
+-v mysql_data:/var/lib/mysql \
+mysql:8.0.27 --default-time-zone=+5:30 --require_secure_transport=ON
+
+docker run --name mysql -d \
+--restart=unless-stopped \
+--hostname mysql.hld.sourceshift.org \
+-e 'TZ=Asia/Kolkata' \
+-p 3306:3306 \
+-v mysql_data:/var/lib/mysql \
+mysql:8.0.27 --default-time-zone=+5:30 --require_secure_transport=ON

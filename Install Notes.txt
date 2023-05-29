@@ -1,0 +1,42 @@
+firewall-cmd --zone=public --permanent --add-port=5901/tcp
+firewall-cmd --reload
+
+shell> yum search libaio  # search for info
+shell> yum install libaio # install library
+
+rm -rf /app/data/mysql/* /app/logs/mysql/*
+
+/app/platform/mysql/bin/mysqld_safe --defaults-file=/app/platform/mysql/my.cnf --initialize --user=dbmysqluser
+
+/app/platform/mysql/bin/mysql_ssl_rsa_setup --defaults-file=/app/platform/mysql/my.cnf --uid=dbmysqluser
+
+ /app/platform/mysql/bin/mysqld_safe --defaults-file=/app/platform/mysql/my.cnf --user=dbmysqluser& 
+
+grep "temporary.*password" /app/logs/mysql/mysql_error.log
+
+/app/platform/mysql/bin/mysql_secure_installation --defaults-file=/app/platform/mysql/my.cnf --host=127.0.0.1 --user=mysqlrootuser
+
+
+
+-------------------------------------------------------------------------------------------------------------------------
+/app/platform/mysql/bin/mysqld_safe --defaults-file=/app/platform/mysql/my.cnf --initialize --user=amandal
+
+/app/platform/mysql/bin/mysql_ssl_rsa_setup --defaults-file=/app/platform/mysql/my.cnf --uid=dbmysqluser
+
+ /app/platform/mysql/bin/mysqld_safe --defaults-file=/app/platform/mysql/my.cnf --user=dbmysqluser& 
+
+grep "temporary.*password" /app/logs/mysql/mysql_error.log
+
+/app/platform/mysql/bin/mysql_secure_installation --defaults-file=/app/platform/mysql/my.cnf --host=127.0.0.1 --user=mysqlrootuser
+
+ 
+ -------------------------------------------------------------------------------------------------------------------------
+
+bin\mysqld.exe --defaults-file=.\my.ini --initialize
+bin\mysql_ssl_rsa_setup.exe --defaults-file=my.ini
+bin\mysqld.exe --defaults-file=.\my.ini
+bin\mysql_secure_installation.exe --defaults-file=my.ini --host=127.0.0.1 --user=root
+
+
+/app/platform/mysql/bin/mysql --socket=/app/platform/mysql/mysql.sock -h 127.0.0.1 -u root -p
+/app/platform/mysql/bin/mysql -h 127.0.0.1 -u root -p

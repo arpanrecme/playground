@@ -1,0 +1,1 @@
+mysqldump.exe --host=hostname --password=pass --protocol=tcp --user=amandal --allow-keywords=TRUE --port=3306 --complete-insert=TRUE --default-character-set=utf8 --routines --events "dbname" --result-file=dump.sql

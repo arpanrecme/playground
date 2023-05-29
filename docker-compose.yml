@@ -1,0 +1,11 @@
+services:
+  mysql:
+    build: .
+    ports:
+      - '3306:3306'
+    network_mode: bridge
+    restart: always
+    volumes: ['C:\app\data\mysql:/var/lib/mysql']
+    environment: 
+      MYSQL_ROOT_PASSWORD: 'pass'
+    command: '--default-time-zone=+6:30'
