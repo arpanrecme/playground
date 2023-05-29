@@ -1,0 +1,64 @@
+name: direct_inline_script
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+env:
+  LOCAL_FILE_X_VAULT_TOKEN: ".vault-token"
+  LOCAL_FILE_TF_PROD_TOKEN: ".tf_prod_token"
+  LOCAL_FILE_ROOT_CA_CERTIFICATE: root_ca_certificate.pem
+  LOCAL_FILE_VAULT_CLIENT_CERT_CHAIN: vault_client_cert_chain.pem
+  LOCAL_FILE_VAULT_CLIENT_KEY: vault_client_key.pem
+  VAULT_APPROLE_ID: ${{ secrets.VAULT_APPROLE_ID }}
+  VAULT_APPROLE_SECRET_ID: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
+jobs:
+  direct_inline_script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run a multi-line script
+        run: |
+          _global_config=$(curl -s "${GLOBAL_CONFIG_ENDPOINT}")
+
+          _vault_proto=$(echo "${_global_config}" | jq -r '.VAULT | .PROTOCOL')
+          _vault_domain=$(echo "${_global_config}" | jq -r '.VAULT | .FQDN')
+          _vault_port=$(echo "${_global_config}" | jq -r '.VAULT | .PORT')
+
+          _vault_addr="${_vault_proto}://${_vault_domain}:${_vault_port}"
+
+          echo "${ROOT_CA_CERTIFICATE}" >"${LOCAL_FILE_ROOT_CA_CERTIFICATE}"
+          echo "${VAULT_CLIENT_CERT_CHAIN}" >"${LOCAL_FILE_VAULT_CLIENT_CERT_CHAIN}"
+          echo "${VAULT_CLIENT_KEY}" >"${LOCAL_FILE_VAULT_CLIENT_KEY}"
+
+          _approle_auth_payload=$(jq --null-input \
+              --arg role_id "$VAULT_APPROLE_ID" \
+              --arg secret_id "$VAULT_APPROLE_SECRET_ID" \
+              '{"role_id": $role_id, "secret_id": $secret_id}')
+
+          curl --request POST --silent \
+              "${_vault_addr}"/v1/auth/approle/login \
+              --cert "${LOCAL_FILE_VAULT_CLIENT_CERT_CHAIN}" \
+              --key "${LOCAL_FILE_VAULT_CLIENT_KEY}" \
+              --cacert "${LOCAL_FILE_ROOT_CA_CERTIFICATE}" \
+              --header 'Content-Type: application/json' \
+              --data-raw "${_approle_auth_payload}" | jq -r '.auth | .client_token' >"${LOCAL_FILE_X_VAULT_TOKEN}"
+
+          echo "::add-mask::$(cat "${LOCAL_FILE_X_VAULT_TOKEN}")"
+
+          curl --request GET --silent \
+              "${_vault_addr}"/v1/prerequisite/data/terraform_cloud \
+              --cert "${LOCAL_FILE_VAULT_CLIENT_CERT_CHAIN}" \
+              --key "${LOCAL_FILE_VAULT_CLIENT_KEY}" \
+              --cacert "${LOCAL_FILE_ROOT_CA_CERTIFICATE}" \
+              --header 'Content-Type: application/json' \
+              --header "X-Vault-Token: $(cat "${LOCAL_FILE_X_VAULT_TOKEN}")" | jq -r '.data | .data | .TF_PROD_TOKEN' >"${LOCAL_FILE_TF_PROD_TOKEN}"
+          echo "::add-mask::$(cat "${LOCAL_FILE_TF_PROD_TOKEN}")"
+          cat "${LOCAL_FILE_TF_PROD_TOKEN}"
+          echo "${TF_VAR_LOCAL_FILE_VAULT_CLIENT_KEY}"
+        env:
+          GLOBAL_CONFIG_ENDPOINT: ${{ secrets.GLOBAL_CONFIG_ENDPOINT }}
+          ROOT_CA_CERTIFICATE: ${{ secrets.ROOT_CA_CERTIFICATE }}
+          VAULT_CLIENT_CERT_CHAIN: ${{ secrets.VAULT_CLIENT_CERT_CHAIN }}
+          VAULT_CLIENT_KEY: ${{ secrets.VAULT_CLIENT_KEY }}
+          TF_VAR_LOCAL_FILE_VAULT_CLIENT_KEY: ${{ env.LOCAL_FILE_VAULT_CLIENT_KEY }}

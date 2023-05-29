@@ -1,0 +1,63 @@
+*               text=lf
+*.gitattributes text
+.gitignore      text
+*.md            text diff=markdown
+.gitattributes  export-ignore
+.gitignore      export-ignore
+*.gitattributes linguist-language=gitattributes
+*.java          text diff=java
+*.kt            text diff=java
+*.groovy        text diff=java
+*.scala         text diff=java
+*.gradle        text diff=java
+*.gradle.kts    text diff=java
+*.sh            text diff=bash
+*.yaml          text
+*.ipynb         text
+*.css           text diff=css
+*.scss          text diff=css
+*.sass          text
+*.df            text
+*.htm           text diff=html
+*.html          text diff=html
+*.js            text
+*.jsp           text
+*.jspf          text
+*.jspx          text
+*.properties    text
+*.tld           text
+*.tag           text
+*.tagx          text
+*.xml           text
+*.pxd           text diff=python
+*.py            text diff=python
+*.py3           text diff=python
+*.pyw           text diff=python
+*.pyx           text diff=python
+*.pyz           text diff=python
+*.pyi           text diff=python
+
+
+*.class         binary
+*.dll           binary
+*.ear           binary
+*.jar           binary
+*.so            binary
+*.war           binary
+*.jks           binary
+*.db            binary
+*.p             binary
+*.pkl           binary
+*.pickle        binary
+*.pyc           binary export-ignore
+*.pyo           binary export-ignore
+*.pyd           binary
+*.konsave       binary
+*.knsv          binary
+*.gz            binary
+*.tar.gz        binary
+*.docx          binary
+*.pptx          binary
+*.doc           binary
+*.ico           binary
+*.png           binary

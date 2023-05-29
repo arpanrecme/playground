@@ -1,0 +1,31 @@
+name: call_another_script
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+env:
+  LOCAL_FILE_X_VAULT_TOKEN: ".vault-token"
+  LOCAL_FILE_TF_PROD_TOKEN: ".tf_prod_token"
+  LOCAL_FILE_ROOT_CA_CERTIFICATE: root_ca_certificate.pem
+  LOCAL_FILE_VAULT_CLIENT_CERT_CHAIN: vault_client_cert_chain.pem
+  LOCAL_FILE_VAULT_CLIENT_KEY: vault_client_key.pem
+  VAULT_APPROLE_ID: ${{ secrets.VAULT_APPROLE_ID }}
+  VAULT_APPROLE_SECRET_ID: ${{ secrets.VAULT_APPROLE_SECRET_ID }}
+jobs:
+  call_another_script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run a multi-line script
+        run: |
+          ./.github/scripts/vault_secrets.sh
+          cat ${LOCAL_FILE_TF_PROD_TOKEN}
+          echo "${TF_VAR_LOCAL_FILE_VAULT_CLIENT_KEY}"
+        env:
+          GLOBAL_CONFIG_ENDPOINT: ${{ secrets.GLOBAL_CONFIG_ENDPOINT }}
+          ROOT_CA_CERTIFICATE: ${{ secrets.ROOT_CA_CERTIFICATE }}
+          VAULT_CLIENT_CERT_CHAIN: ${{ secrets.VAULT_CLIENT_CERT_CHAIN }}
+          VAULT_CLIENT_KEY: ${{ secrets.VAULT_CLIENT_KEY }}
+          TF_VAR_LOCAL_FILE_VAULT_CLIENT_KEY: ${{ env.LOCAL_FILE_VAULT_CLIENT_KEY }}
