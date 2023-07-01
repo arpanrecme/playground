@@ -1,0 +1,11 @@
+$ VBoxManage list hdds
+OR
+$ vboxmanage list hdds
+
+
+$ vboxmanage clonehd --format RAW /home/james/VirtualBox\ VMs/debian/debian.vdi debian_10_Server.img
+
+vboxmanage clonehd --format RAW /app/Arch/Arch.vdi Arch.img
+
+qemu-img convert -f raw Arch.img -O qcow2 Arch.qcow2
+

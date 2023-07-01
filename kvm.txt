@@ -1,0 +1,164 @@
+sudo pacman -S --needed --noconfirm bridge-utils tk
+sudo pacman -S --needed --noconfirm qemu dmidecode
+sudo pacman -S --needed --noconfirm libguestfs
+sudo pacman -S --needed --noconfirm dnsmasq openbsd-netcat edk2-ovmf
+sudo pacman -S --needed --noconfirm qemu-arch-extra qemu-block-gluster qemu-block-iscsi qemu-block-rbd samba
+sudo pacman -S ebtables #---- Not user as iptables is also required
+
+#### Gnome 
+sudo pacman -S --needed --noconfirm virt-viewer virt-manager gnome-menus dbus-broker
+sudo systemctl enable --now dbus-broker.service
+sudo systemctl --global enable dbus-broker.service
+#### KDE
+yay -S --needed --noconfirm qt-virt-manager
+
+### make sure iptables in enabled
+sudo systemctl enable --now libvirtd
+sudo systemctl enable --now iptables
+sudo subl /etc/libvirt/libvirtd.conf
+>>>>>
+unix_sock_group = "libvirt"
+unix_sock_rw_perms = "0770"
+>>>>>>>>>>>
+sudo usermod -a -G libvirt $(whoami)
+sudo newgrp libvirt
+sudo systemctl restart libvirtd.service
+
+Enable Nested Virtualization (Optional) ##https://ostechnix.com/how-to-enable-nested-virtualization-in-kvm-in-linux/
+sudo modprobe -r kvm_intel
+sudo modprobe kvm_intel nested=1
+echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
+systool -m kvm_intel -v | grep nested
+cat /sys/module/kvm_intel/parameters/nested 
+
+## AMD Nested
+sudo modprobe -r kvm_amd
+sudo modprobe kvm_amd nested=1
+echo "options kvm_amd nested=1" | sudo tee /etc/modprobe.d/kvm-amd.conf
+systool -m kvm_amd -v | grep -i nested
+cat /sys/module/kvm_amd/parameters/nested
+
+
+
+>>>>>>>>>>>
+    nested              = "Y"
+    nested_early_check  = "N"
+>>>>>>>>>>
+
+
+####################################################################################
+####################################################################################
+
+pacman  -U https://archive.archlinux.org/packages/f/file/file-5.39-1-x86_64.pkg.tar.zst
+
+####################################################################################
+####################################################################################
+
+<network>
+  <name>default</name>
+  <bridge name='virbr0'/>
+  <forward/>
+  <ip address='192.168.122.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.122.2' end='192.168.122.254'/>
+    </dhcp>
+  </ip>
+</network>
+
+virsh net-define default.xml
+
+####################################################################################
+####################################################################################
+
+For Video install spice-vdagent(Arch Linux)
+
+pacman -S --noconfirm --needed spice-vdagent
+systemctl enable --now spice-agentd
+systemctl enable --now spice-agentd.service
+systemctl enable --now spice-agentd.socket
+
+####################################################################################
+####################################################################################
+ Type: mount
+ Mode: Mapped
+ Source Path: Host OS directory path (/srv/kvm-share)
+ Target Path: Network Path in Guest OS (/kvm-share)
+ 
+mount -t 9p -o trans=virtio <Target Path> <Directory Location in guest>
+
+mount -t 9p -o trans=virtio /kvm-share /mnt/kvm-share
+
+fstab entry
+
+<Target Path> <Directory Location in guest> 9p trans=virtio,version=9p2000.L,rw 0 0
+/kvm-share /mnt/kvm-share 9p trans=virtio,version=9p2000.L,rw 0 0
+####################################################################################
+####################################################################################
+
+## Backup
+virsh dumpxml $Source_VM_Name > $Source_VM_Name.xml
+virsh snapshot-list $Source_VM_Name --tree
+virsh snapshot-dumpxml $Source_VM_Name $Snapshot_Name --security-info > $Snapshot_Name.xml
+
+## Restore
+virsh create/define configuration_file.xml
+virsh snapshot-create $Destination_VM $Snapshot_Name.xml --redefine
+
+
+virsh snapshot-dumpxml $Source_VM_Name $Snapshot_Name --security-info > $Snapshot_Name.xml
+
+virsh snapshot-list linux2020 --tree
+
+virsh create linux2020.xml
+
+virsh snapshot-create linux2020 snapshot1.xml --redefine
+
+
+####################################################################################
+####################################################################################
+
+o sparsify a disk:
+
+# virt-sparsify /dev/sda1 /dev/device
+
+Copies the contents of /dev/sda1 to /dev/device, making the output sparse. If /dev/device already exists, it is overwritten. The format of /dev/sda1 is detected and used as the format for /dev/device. 
+
+ To make a disk image sparse without creating a temporary copy:
+
+# virt-sparsify --in-place disk.img
+
+As of now
+
+sudo qemu-img convert -O qcow2 archlinux.qcow2 archlinux1.qcow2
+
+
+
+
+####################################################################################################################################
+####################################################################################################################################
+####################################################################################################################################
+####################################################################################################################################
+
+https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF
+
+GRUB EDIT 
+## For intel
+GRUB EDIT:  intel_iommu=on
+
+## For AMD
+GRUB EDIT:  amd_iommu=on
+get CPI id values from file archlinux_OVMF.sh
+
+GRUB EDIT:  iommu=pt
+GRUB EDIT:  vfio-pci.ids=10de:24dd,1022:790e
+GRUB EDIT:  rd.driver.pre=vfio_pci
+
+
+/etc/mkinitcpio.conf
+MODULES=(... vfio_pci vfio vfio_iommu_type1 vfio_virqfd ...)
+HOOKS=(... modconf ...)
+/etc/booster.yaml
+modules_force_load: vfio_pci,vfio,vfio_iommu_type1,vfio_virqfd
+
+mkinitcpio -p linux
+
