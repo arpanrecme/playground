@@ -1,0 +1,150 @@
+---
+- name: Own CA
+  hosts: localhost
+  become: false
+  gather_facts: true
+  vars_files: "{{ playbook_dir }}/vars/main.yml"
+  vars:
+    - rootca_debug_no_log: false
+  tasks:
+    - name: Own CA | Arpanrec Certificate | Import Passwords
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/vars/passwords.yml"
+      ignore_errors: true
+
+    - name: Own CA | Arpanrec Certificate | Check for passphrase
+      ansible.builtin.fail:
+        msg: arpanrec_cert_passphrase_private_key is missing
+      when: >
+        arpanrec_cert_passphrase_private_key is undefined
+        or
+        arpanrec_cert_passphrase_private_key == None
+        or
+        ( arpanrec_cert_passphrase_private_key | length ) < 1
+
+    - name: Own CA | Arpanrec Certificate | Create Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0700"
+      with_items:
+        - "{{ arpanrec_cert_generated_resources_dir }}"
+        - "{{ files_dir }}"
+
+    - name: Own CA | Arpanrec Certificate | Generate an OpenSSL private key
+      no_log: "{{ rootca_debug_no_log }}"
+      community.crypto.openssl_privatekey:
+        path: "{{ arpanrec_cert_file_private_key }}"
+        passphrase: "{{ arpanrec_cert_passphrase_private_key }}"
+        size: 8192
+        cipher: auto
+        mode: "0400"
+      register: arpanrec_cert_tmp_private_key_details
+
+    - name: Own CA | Arpanrec Certificate | Root Key Details
+      ansible.builtin.debug:
+        var: arpanrec_cert_tmp_private_key_details
+
+    - name: Own CA | Arpanrec Certificate | Check for existing Certificate
+      ansible.builtin.stat:
+        path: "{{ arpanrec_cert_file_cert_path }}"
+      register: arpanrec_cert_tmp_file_stat_cert
+
+    - name: Own CA | Arpanrec Certificate | Get information on existing certificate
+      when: arpanrec_cert_tmp_file_stat_cert.stat.exists
+      community.crypto.x509_certificate_info:
+        path: "{{ arpanrec_cert_file_cert_path }}"
+        valid_at:
+          point_1: "+1d"
+      register: arpanrec_cert_tmp_x509_certificate_info
+      ignore_errors: true
+
+    - name: Own CA | Arpanrec Certificate | Generate an OpenSSL Certificate Signing Request
+      when: >
+        (
+          not arpanrec_cert_tmp_file_stat_cert.stat.exists
+        )
+        or
+        (
+          arpanrec_cert_tmp_x509_certificate_info.valid_at is defined
+          and
+          (
+            not arpanrec_cert_tmp_x509_certificate_info.valid_at.point_1
+          )
+        )
+        or
+        (
+          arpanrec_cert_tmp_x509_certificate_info.failed is defined
+          and
+          arpanrec_cert_tmp_x509_certificate_info.failed
+        )
+        or
+        (
+          arpanrec_cert_tmp_file_stat_cert.stat.exists
+          and
+          (
+            arpanrec_cert_tmp_private_key_details['diff']['after']['public_key_fingerprints']['sha256']
+            !=
+            arpanrec_cert_tmp_x509_certificate_info['public_key_fingerprints']['sha256']
+          )
+        )
+      no_log: "{{ rootca_debug_no_log }}"
+      community.crypto.openssl_csr:
+        return_content: true
+        path: "{{ arpanrec_cert_file_csr_path }}"
+        privatekey_path: "{{ arpanrec_cert_file_private_key }}"
+        privatekey_passphrase: "{{ arpanrec_cert_passphrase_private_key }}"
+        email_address: me@arpanrec.com
+        common_name: Arpan M Domain Cert
+        basic_constraints: CA:TRUE
+        basic_constraints_critical: true
+        key_usage:
+          - digitalSignature
+          - nonRepudiation
+          - keyEncipherment
+          - dataEncipherment
+          - keyCertSign
+          - cRLSign
+        key_usage_critical: true
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+          - codeSigning
+          - emailProtection
+          - timeStamping
+          - OCSPSigning
+          - msCTLSign
+          - msEFS
+        extended_key_usage_critical: true
+        create_subject_key_identifier: true
+        mode: "0400"
+      register: arpanrec_cert_tmp_csr_result
+
+    - name: Own CA | Arpanrec Certificate | Generate an OpenSSL certificate signed with your own CA certificate
+      when: arpanrec_cert_tmp_csr_result.csr is defined
+      community.crypto.x509_certificate:
+        csr_path: "{{ arpanrec_cert_file_csr_path }}"
+        path: "{{ arpanrec_cert_file_cert_path }}"
+        ownca_privatekey_path: "{{ rootca_file_root_key }}"
+        ownca_privatekey_passphrase: "{{ rootca_passphrase_root_key }}"
+        ownca_path: "{{ rootca_file_root_cert }}"
+        provider: ownca
+        selfsigned_not_after: "+{{ arpanrec_cert_validity_days }}d"
+        mode: "0400"
+
+    - name: Own CA | Arpanrec Certificate | Get certificate information for newly generated certificate
+      community.crypto.x509_certificate_info:
+        path: "{{ arpanrec_cert_file_cert_path }}"
+      register: arpanrec_cert_tmp_new_x509_certificate_details
+
+    - name: Own CA | Arpanrec Certificate | Get information on newly generated certificate
+      ansible.builtin.debug:
+        var: arpanrec_cert_tmp_new_x509_certificate_details
+
+    - name: Own CA | Arpanrec Certificate | Create Chain
+      ansible.builtin.copy:
+        content: |+
+          {{ lookup('ansible.builtin.file', arpanrec_cert_file_cert_path) }}
+          {{ lookup('ansible.builtin.file', rootca_file_root_cert) }}
+        dest: "{{ arpanrec_cert_file_cert_bundle_path }}"
+        mode: "0400"

@@ -1,0 +1,39 @@
+---
+global_config: "{{ lookup('ansible.builtin.url', \
+  'https://raw.githubusercontent.com/arpanrecme/dotfiles/main/.config/global.json', \
+  split_lines=false) }}"
+
+generated_resources_dir: "{{ playbook_dir }}/generated_resources"
+
+files_dir: "{{ playbook_dir }}/files"
+
+# Root CA
+rootca_generated_resources_dir: "{{ generated_resources_dir }}/rootca"
+
+rootca_file_root_key: "{{ rootca_generated_resources_dir }}/key.pem"
+rootca_passphrase_root_key:
+rootca_file_csr: "{{ rootca_generated_resources_dir }}/csr.pem"
+rootca_file_root_cert: "{{ rootca_generated_resources_dir }}/cert.pem"
+rootca_validity_days: "7300"
+
+# OpenSSH
+openssh_generated_resources_dir: "{{ generated_resources_dir }}/openssh"
+
+openssh_key_file: "{{ openssh_generated_resources_dir }}/id_rsa"
+openssh_passphrase:
+
+# OpenSSH Arpanrec
+openssh_arpanrec_generated_resources_dir: "{{ generated_resources_dir }}/openssh_arpanrec"
+
+openssh_arpanrec_key_file: "{{ openssh_arpanrec_generated_resources_dir }}/id_rsa"
+openssh_arpanrec_passphrase:
+
+# arpanrec certificate
+arpanrec_cert_generated_resources_dir: "{{ generated_resources_dir }}/arpanrec_cert"
+
+arpanrec_cert_file_private_key: "{{ arpanrec_cert_generated_resources_dir }}/key.pem"
+arpanrec_cert_passphrase_private_key:
+arpanrec_cert_file_csr_path: "{{ arpanrec_cert_generated_resources_dir }}/csr.pem"
+arpanrec_cert_file_cert_path: "{{ arpanrec_cert_generated_resources_dir }}/cert.pem"
+arpanrec_cert_validity_days: "7300"
+arpanrec_cert_file_cert_bundle_path: "{{ arpanrec_cert_generated_resources_dir }}/cert_full_chain.pem"

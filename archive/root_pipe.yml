@@ -1,0 +1,83 @@
+---
+- name: Add dynamic host
+  hosts: localhost
+  become: false
+  gather_facts: true
+  vars:
+    pv_ssl_org_data_dir: data
+    pv_ssl_org_root_key_password: "asfasfsafasf"
+    pv_ssl_org_root_valid_till: "2030-01-01 00:00:00 +00:00"
+  tasks:
+    - name: Generate an OpenSSL private key with the default values (8192 bits, RSA)
+      community.crypto.openssl_privatekey_pipe:
+        passphrase: "{{ pv_ssl_org_root_key_password }}"
+        content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/rootCA.key', errors='ignore') | default(omit) }}"
+        cipher: auto
+        size: 8192
+      register: pv_ssl_org_openssl_privatekey_pipe
+      no_log: true # make sure that private key data is not accidentally revealed in logs!
+
+    - name: Write new key to file
+      ansible.builtin.copy:
+        content: "{{ pv_ssl_org_openssl_privatekey_pipe.privatekey }}"
+        dest: "{{ pv_ssl_org_data_dir }}/rootCA.key"
+      when: pv_ssl_org_openssl_privatekey_pipe.privatekey is defined
+
+    - name: Generate an OpenSSL Certificate Signing Request
+      community.crypto.openssl_csr_pipe:
+        content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/root.csr', errors='ignore') | default(omit) }}"
+        privatekey_content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/rootCA.key', errors='ignore') | default(omit) }}"
+        privatekey_passphrase: "{{ pv_ssl_org_root_key_password }}"
+        country_name: IN
+        state_or_province_name: WB
+        locality_name: Arambagh
+        organization_name: arpanrec
+        organizational_unit_name: arpanrec web authority
+        email_address: me@arpanrec.com
+        common_name: Arpan ROOT CA V1
+        basic_constraints: CA:TRUE
+        basic_constraints_critical: true
+        key_usage:
+          - digitalSignature
+          - nonRepudiation
+          - keyEncipherment
+          - dataEncipherment
+          - keyCertSign
+          - cRLSign
+        key_usage_critical: true
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+          - codeSigning
+          - emailProtection
+          - timeStamping
+          - OCSPSigning
+          - msCTLSign
+          - msEFS
+        extended_key_usage_critical: true
+      register: pv_ssl_org_openssl_csr_pipe
+
+    - name: Write CSR To File
+      ansible.builtin.copy:
+        content: "{{ pv_ssl_org_openssl_csr_pipe.csr }}"
+        dest: "{{ pv_ssl_org_data_dir }}/root.csr"
+      when: pv_ssl_org_openssl_csr_pipe.changed
+
+    - name: Generate a Self Signed OpenSSL certificate
+      community.crypto.x509_certificate_pipe:
+        provider: selfsigned
+        privatekey_content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/rootCA.key', errors='ignore') | default(omit) }}"
+        privatekey_passphrase: "{{ pv_ssl_org_root_key_password }}"
+        csr_content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/root.csr', errors='ignore') | default(omit) }}"
+        content: "{{ lookup('ansible.builtin.file', pv_ssl_org_data_dir + '/rootCA.crt', errors='ignore') | default(omit) }}"
+        selfsigned_not_after: "+{{ ((pv_ssl_org_root_valid_till | \
+          to_datetime('%Y-%m-%d %H:%M:%S %z')) - \
+          ('%Y-%m-%d %H:%M:%S %z' | strftime(ansible_date_time.epoch) \
+          | to_datetime('%Y-%m-%d %H:%M:%S %z'))).total_seconds() | int }}s"
+        ignore_timestamps: true
+      register: pv_ssl_org_x509_certificate_pipe
+
+    - name: Write Cert To File
+      ansible.builtin.copy:
+        content: "{{ pv_ssl_org_x509_certificate_pipe.certificate }}"
+        dest: "{{ pv_ssl_org_data_dir }}/rootCA.crt"

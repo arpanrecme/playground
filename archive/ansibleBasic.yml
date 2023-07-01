@@ -1,0 +1,32 @@
+- name: Generate private key
+  openssl_privatekey:
+    path: "/certs/vault-dev.sourceshift.org.key"
+    size: 8192
+
+- name: Generate CSR
+  openssl_csr:
+    path: "/certs/vault-dev.sourceshift.org.csr"
+    privatekey_path: "/certs/vault-dev.sourceshift.org.key"
+    common_name: "vault-dev.sourceshift.org"
+    subject_alt_name:
+      - "DNS:vault-dev.sourceshift.org"
+    basic_constraints_critical: yes
+    basicConstraints:
+      - CA:FALSE
+    keyUsage:
+      - nonRepudiation
+      - digitalSignature
+      - keyEncipherment
+    key_usage_critical: yes
+    extendedKeyUsage:
+      - serverAuth
+    extended_key_usage_critical: yes
+
+- name: Sign CSR with CA key
+  community.crypto.x509_certificate:
+    path: "/certs/vault-dev.sourceshift.org.crt"
+    csr_path: "/certs/vault-dev.sourceshift.org.csr"
+    ownca_path: "/certs/rootCA.crt"
+    ownca_privatekey_path: "/certs/rootCA.key"
+    ownca_privatekey_passphrase: pass
+    provider: ownca

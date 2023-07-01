@@ -1,0 +1,138 @@
+---
+- name: Own CA
+  hosts: localhost
+  become: false
+  gather_facts: true
+  vars_files: "{{ playbook_dir }}/vars/main.yml"
+  vars:
+    - rootca_debug_no_log: false
+  tasks:
+    - name: Own CA | Root CA | Import Passwords
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/vars/passwords.yml"
+      ignore_errors: true
+
+    - name: Own CA | Root CA | Check for passphrase
+      ansible.builtin.fail:
+        msg: rootca_passphrase_root_key is missing
+      when: >
+        rootca_passphrase_root_key is undefined
+        or
+        rootca_passphrase_root_key == None
+        or
+        ( rootca_passphrase_root_key | length ) < 1
+
+    - name: Own CA | Root CA | Create Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0700"
+      with_items:
+        - "{{ rootca_generated_resources_dir }}"
+        - "{{ files_dir }}"
+
+    - name: Own CA | Root CA | Generate an OpenSSL private key
+      no_log: "{{ rootca_debug_no_log }}"
+      community.crypto.openssl_privatekey:
+        passphrase: "{{ rootca_passphrase_root_key }}"
+        path: "{{ rootca_file_root_key }}"
+        size: 8192
+        cipher: auto
+        mode: "0400"
+      register: rootca_file_root_key_details
+
+    - name: Own CA | Root CA | Root Key Details
+      ansible.builtin.debug:
+        var: rootca_file_root_key_details
+
+    - name: Own CA | Root CA | Check for existing Certificate
+      ansible.builtin.stat:
+        path: "{{ rootca_file_root_cert }}"
+      register: rootca_file_stat_root_cert
+
+    - name: Own CA | Root CA | Get information on existing certificate
+      when: rootca_file_stat_root_cert.stat.exists
+      community.crypto.x509_certificate_info:
+        path: "{{ rootca_file_root_cert }}"
+        valid_at:
+          point_1: "+1d"
+      register: rootca_file_x509_certificate_info_root_cert
+      ignore_errors: true
+
+    - name: Own CA | Root CA | Generate an OpenSSL Certificate Signing Request
+      when: >
+        (
+          not rootca_file_stat_root_cert.stat.exists
+        )
+        or
+        (
+          rootca_file_x509_certificate_info_root_cert.failed is defined
+          and
+          rootca_file_x509_certificate_info_root_cert.failed
+        )
+        or
+        (
+          not rootca_file_x509_certificate_info_root_cert.valid_at.point_1
+        )
+        or
+        (
+          rootca_file_root_key_details['diff']['after']['public_key_fingerprints']['sha256']
+          !=
+          rootca_file_x509_certificate_info_root_cert['public_key_fingerprints']['sha256']
+        )
+      no_log: "{{ rootca_debug_no_log }}"
+      community.crypto.openssl_csr:
+        return_content: true
+        path: "{{ rootca_file_csr }}"
+        privatekey_path: "{{ rootca_file_root_key }}"
+        privatekey_passphrase: "{{ rootca_passphrase_root_key }}"
+        country_name: "{{ global_config.COUNTRY }}"
+        state_or_province_name: "{{ global_config.STATE }}"
+        locality_name: "{{ global_config.LOCALITY }}"
+        organization_name: "{{ global_config.NAME }}"
+        organizational_unit_name: "{{ global_config.ROOT_CA.OU }}"
+        email_address: "{{ global_config.EMAIL }}"
+        common_name: "{{ global_config.ROOT_CA.CN }}"
+        basic_constraints: CA:TRUE
+        basic_constraints_critical: true
+        key_usage:
+          - digitalSignature
+          - nonRepudiation
+          - keyEncipherment
+          - dataEncipherment
+          - keyCertSign
+          - cRLSign
+        key_usage_critical: true
+        extended_key_usage:
+          - serverAuth
+          - clientAuth
+          - codeSigning
+          - emailProtection
+          - timeStamping
+          - OCSPSigning
+          - msCTLSign
+          - msEFS
+        extended_key_usage_critical: true
+        create_subject_key_identifier: true
+        mode: "0400"
+      register: rootca_openssl_csr_result
+
+    - name: Own CA | Root CA | Generate an OpenSSL certificate signed with your own CA certificate
+      when: rootca_openssl_csr_result.csr is defined
+      community.crypto.x509_certificate:
+        csr_path: "{{ rootca_file_csr }}"
+        path: "{{ rootca_file_root_cert }}"
+        privatekey_path: "{{ rootca_file_root_key }}"
+        privatekey_passphrase: "{{ rootca_passphrase_root_key }}"
+        provider: selfsigned
+        selfsigned_not_after: "+{{ rootca_validity_days }}d"
+        mode: "0400"
+
+    - name: Own CA | Root CA | Get certificate information for newly generated certificate
+      community.crypto.x509_certificate_info:
+        path: "{{ rootca_file_root_cert }}"
+      register: rootca_new_x509_certificate_details
+
+    - name: Own CA | Root CA | Get information on newly generated certificate
+      ansible.builtin.debug:
+        var: rootca_new_x509_certificate_details

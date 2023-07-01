@@ -1,0 +1,46 @@
+---
+- name: Own CA
+  hosts: localhost
+  become: false
+  gather_facts: true
+  vars_files: "{{ playbook_dir }}/vars/main.yml"
+  vars:
+    - own_ca_debug_no_log: false
+  tasks:
+    - name: OpenSSH | Master | Import Passwords
+      ansible.builtin.include_vars:
+        file: "{{ playbook_dir }}/vars/passwords.yml"
+      ignore_errors: true
+
+    - name: OpenSSH | Master | Check for passphrase
+      ansible.builtin.fail:
+        msg: openssh_passphrase is missing
+      when: >
+        openssh_passphrase is undefined
+        or
+        openssh_passphrase == None
+        or
+        (( openssh_passphrase | length ) < 1)
+
+    - name: OpenSSH | Master | Create Directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0700"
+      with_items:
+        - "{{ openssh_generated_resources_dir }}"
+        - "{{ files_dir }}"
+
+    - name: OpenSSH | Master | Generate an OpenSSH keypair
+      community.crypto.openssh_keypair:
+        path: "{{ openssh_key_file }}"
+        mode: "0400"
+        type: "ecdsa"
+        comment: arpan.rec@gmail.com
+        private_key_format: auto
+        passphrase: "{{ openssh_passphrase }}"
+      register: openssh_keypair_result
+
+    - name: OpenSSH | Master | SSH Keys Details
+      ansible.builtin.debug:
+        var: openssh_keypair_result

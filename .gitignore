@@ -1,0 +1,7 @@
+organization_setup/data/*
+!organization_setup/data/.gitkeep
+ansible_setup/data/*
+!ansible_setup/data/.gitkeep
+ansible/generated_resources/*
+ansible/vars/passwords.yml
+*.log
