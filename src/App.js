@@ -4,15 +4,23 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import Navbar from "./components/Navbar";
 import TextForm from "./components/TextForm";
 import About from "./components/About";
+import {useState} from "react";
 
 
-function App() {
-    return (
-        <>  <Navbar title="easyIAC1"/>
-            <TextForm/>
-            <About/>
-        </>
-    );
+export default function App() {
+    const [lightDarkMode, setLightDarkMode] = useState("light");
+    const toggleLightDarkMode = () => {
+        if (lightDarkMode === "light") {
+            document.body.style.backgroundColor = "dark";
+            setLightDarkMode("dark");
+        } else {
+            document.body.style.backgroundColor = "light";
+            setLightDarkMode("light");
+        }
+    }
+    return (<>
+        <Navbar title="easyIAC1" lightDarkMode={lightDarkMode} toggleLightDarkMode={toggleLightDarkMode}/>
+        <TextForm/>
+        <About/>
+    </>);
 }
-
-export default App;
