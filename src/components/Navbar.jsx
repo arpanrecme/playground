@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 function Navbar(props) {
@@ -97,7 +96,7 @@ function Navbar(props) {
 
 Navbar.prototype = {
     title: PropTypes.string.isRequired,
-    lightDarkMode: PropTypes.string,
+    lightDarkMode: PropTypes.string.isRequired,
     toggleLightDarkMode: PropTypes.func.isRequired,
 };
 
